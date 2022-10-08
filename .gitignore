@@ -9,6 +9,7 @@
 !/*.md
 !/*.txt
 !LICENSE
+!.vscode/*
 
 # GO
 !*.go
