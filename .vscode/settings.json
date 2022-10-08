@@ -1,1 +1,15 @@
-{}
+{
+    "explorer.fileNesting.patterns": {
+        ".docs": "LICENSE, *.pdf, *.md, *.yaml",
+        ".configs": "go.mod, go.sum"
+    },
+    "cSpell.words": [
+        "Asab",
+        "dmax",
+        "dmin",
+        "inputfile",
+        "outputfile",
+        "tprob",
+        "vprob"
+    ]
+}
