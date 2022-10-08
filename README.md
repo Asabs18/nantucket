@@ -1,2 +1,2 @@
-# virusSimulation
-A simple go program which simulates a simple virus in a certain size population. 
+# nantucket
+_nantucket_ is a virus simulation, based on **nantucket.pdf**, written verbatim in `C`, and (hopefully😎) idomatically in `GO`.
