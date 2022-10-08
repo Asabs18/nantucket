@@ -1,0 +1,11 @@
+{
+    "recommendations": [
+        "yzhang.markdown-all-in-one",
+        "houkanshan.vscode-markdown-footnote",
+        "davidanson.vscode-markdownlint",
+        "takumii.markdowntable",
+        "mdickin.markdown-shortcuts",
+        "streetsidesoftware.code-spell-checker",
+        "coddx.coddx-alpha"
+    ]
+}
