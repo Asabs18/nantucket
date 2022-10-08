@@ -5,6 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Launch Package",
+            "type": "go",
+            "request": "launch",
+            "mode": "auto",
+            "program": "${fileDirname}",
+            "args": ["visualize", "-help"]
+        },
+        {
             "name": "Debug",
             "type": "gdb",
             "request": "launch",

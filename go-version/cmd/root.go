@@ -1,6 +1,6 @@
 /*
 Copyright © 2022 Asabs18 & davegi
-This file is part of the `nantucket` application.
+This file is part of the `nantucket` project.
 */
 package cmd
 
@@ -13,6 +13,7 @@ import (
 )
 
 var cfgFile string
+
 // BACK: run text through MD processor?
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -26,6 +27,8 @@ Measures like mask-wearing and social distancing are considered when
 determining the probability that the virus will be transmitted from one
 person to another. That is: How does transmission probability influence the 
 spread of the disease?`,
+	// HACK: versioning?
+	Version: "0.0.0",
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	// Run: func(cmd *cobra.Command, args []string) { },
@@ -41,19 +44,30 @@ func Execute() {
 }
 
 func init() {
+	// HACK: where to put config vars?
+	var vprob float32
+	var tprob float32
+	var input_file string
+
+	rootCmd.PersistentFlags().Float32P("vprob", "v", vprob, "vprob")
+	rootCmd.PersistentFlags().Float32P("tprob", "t", tprob, "tprob")
+	rootCmd.PersistentFlags().String("input-file", input_file, "input-file")
 	cobra.OnInitialize(initConfig)
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
+	// will be global for your project.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.nantucket.yaml)")
+	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.nantucket.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
+// BACK: does nantucket need a config file?
+//   - yes - to save scenarios - so long as it can write out CLAs ala `opt`
+//
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
 	if cfgFile != "" {

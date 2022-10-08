@@ -1,5 +1,7 @@
 # Notes
 
+## `Cobra`
+
 - [spf13/cobra: A Commander for modern Go CLI interactions](https://github.com/spf13/cobra)
   - [Installing](https://github.com/spf13/cobra#installing)
   - [cobra-cli](https://github.com/spf13/cobra-cli/blob/main/README.md)
@@ -15,6 +17,12 @@
         - `-v`
         - `-t`
         - `input-file`
+
+- [Add commands to a project](https://github.com/spf13/cobra-cli/blob/main/README.md#add-commands-to-a-project)
+
+## `GO`
+
+- [Tutorial: Getting started with multi-module workspaces - The Go Programming Language](https://go.dev/doc/tutorial/workspaces)
 
 [^simulate]: _`simulate` `vprob` `tprob` `file`_
 [^analyze]:  _`analyze` `vprob` `tprob` `file`_

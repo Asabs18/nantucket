@@ -1,7 +1,8 @@
 {
+    "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
-        ".docs": "LICENSE, *.pdf, *.md, *.yaml, plot.txt",
-        ".configs": "go.mod, go.sum, .gitignore, Makefile, .replit.txt, *.nix"
+        ".docs": "LICENSE, *.pdf, *.md, plot.txt",
+        ".configs": "go.mod, go.sum, go.work, *.yaml, .gitignore, Makefile, .replit.txt, *.nix"
     },
     "cSpell.words": [
         "Asab",
@@ -12,5 +13,13 @@
         "tprob",
         "vprob"
     ],
-    "explorer.fileNesting.enabled": true
+    "workbench.colorCustomizations": {
+        "activityBar.background": "#40272B",
+        "titleBar.activeBackground": "#5A363C",
+        "titleBar.activeForeground": "#FCF9FA",
+        "tab.activeBorder": "#f5f9ad",
+        "statusBar.background": "#f5f9ad",
+        "statusBar.foreground": "#000000"
+    },
+    "window.title": "~[cmd]~${separator}${separator}${separator}${separator}${dirty}${activeEditorShort}${separator}${rootName}${separator}${appName}"
 }

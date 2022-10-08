@@ -1,6 +1,6 @@
 /*
 Copyright © 2022 Asabs18 & davegi
-This file is part of the `nantucket` application.
+This file is part of the `nantucket` project.
 */
 package main
 
