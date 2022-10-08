@@ -1,7 +1,7 @@
 {
     "explorer.fileNesting.patterns": {
-        ".docs": "LICENSE, *.pdf, *.md, *.yaml",
-        ".configs": "go.mod, go.sum"
+        ".docs": "LICENSE, *.pdf, *.md, *.yaml, plot.txt",
+        ".configs": "go.mod, go.sum, .gitignore, Makefile, .replit.txt, *.nix"
     },
     "cSpell.words": [
         "Asab",
@@ -11,5 +11,6 @@
         "outputfile",
         "tprob",
         "vprob"
-    ]
+    ],
+    "explorer.fileNesting.enabled": true
 }
