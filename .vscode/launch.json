@@ -13,10 +13,20 @@
             "args": ["visualize", "-help"]
         },
         {
-            "name": "Debug",
+            "name": "Debug simulate",
             "type": "gdb",
             "request": "launch",
-            "target": "c-version/main",
+            "target": "c-version/simulate",
+            "arguments": "0.0 0.015 simulate-0.0-0.015.dat",
+            "cwd": "${workspaceRoot}",
+            "valuesFormatting": "parseText"
+        },
+        {
+            "name": "Debug analyze",
+            "type": "gdb",
+            "request": "launch",
+            "target": "c-version/analyze",
+            "arguments": "0.0 0.015 analyze-0.0-0.015.dat",
             "cwd": "${workspaceRoot}",
             "valuesFormatting": "parseText"
         }

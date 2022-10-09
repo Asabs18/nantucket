@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <time.h>
 
 // Random number between zero and one
 double rand01() {

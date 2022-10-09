@@ -8,7 +8,19 @@
         "Asab",
         "dmax",
         "dmin",
+        "dprob",
         "inputfile",
+        "ndays",
+        "ndead",
+        "newstatus",
+        "nexposures",
+        "ninfected",
+        "npeople",
+        "nrecovered",
+        "nsusceptible",
+        "ntrials",
+        "nvaccinated",
+        "otherperson",
         "outputfile",
         "tprob",
         "vprob"
@@ -16,10 +28,6 @@
     "workbench.colorCustomizations": {
         "activityBar.background": "#40272B",
         "titleBar.activeBackground": "#5A363C",
-        "titleBar.activeForeground": "#FCF9FA",
-        "tab.activeBorder": "#f5f9ad",
-        "statusBar.background": "#f5f9ad",
-        "statusBar.foreground": "#000000"
-    },
-    "window.title": "~[cmd]~${separator}${separator}${separator}${separator}${dirty}${activeEditorShort}${separator}${rootName}${separator}${appName}"
+        "titleBar.activeForeground": "#FCF9FA"
+    }
 }

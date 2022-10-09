@@ -8,6 +8,7 @@
 
 ### In Progress
 
+- [ ] djg: C versions of _analysis_ and _visualize_.  
 - [ ] djg: Help/usage text for all.  
 - [ ] djg: Create local flags.  
 
@@ -17,4 +18,3 @@
 - [x] djg: Update package name.  
 - [x] djg: Create global flags.  
 - [x] djg: Create sub-commands.  
-
