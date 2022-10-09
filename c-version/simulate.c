@@ -1,7 +1,6 @@
 #include "random.h"
 #include "virus.h"
 #include <assert.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 int catch_or_not(double tprob, int npeople, int status[]) {
@@ -26,10 +25,6 @@ int die_or_not(double dprob, int sick_days, int person, int npeople,
     return is_recovered;
   }
   return status[person] + 1;
-}
-double standard_deviation(double sum, double sum_squared, int npeople,
-                          int status[]) {
-  return 0;
 }
 int main(int argc, char *argv[]) {
   const int npeople = 1e+4;
