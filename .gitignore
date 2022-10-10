@@ -4,15 +4,23 @@
 *
 
 # But not these files...
+# .vscode
+!.vscode/*
+# .configs
+!/.configs
 !/.gitignore
+!.configs/*
+# .docs
+!/.docs
 !/*.pdf
 !/*.md
 !/*.txt
 !LICENSE
-!.vscode/*
-!.configs
-!.docs
-
+!.docs/*
+# .data
+!/.data
+!/*.dat
+!/*.xlsx
 # GO
 !*.go
 !go.sum
