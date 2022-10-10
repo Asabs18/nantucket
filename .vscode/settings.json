@@ -2,14 +2,19 @@
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
         ".docs": "LICENSE, *.pdf, *.md, plot.txt",
-        ".configs": "go.mod, go.sum, go.work, *.yaml, .gitignore, Makefile, .replit.txt, *.nix"
+        ".configs": "go.mod, go.sum, go.work, *.yaml, .gitignore, Makefile, .replit.txt, *.nix",
+        ".data": "*.dat, *.xlsx"
     },
     "cSpell.words": [
         "Asab",
+        "binno",
+        "binsize",
         "dmax",
         "dmin",
         "dprob",
+        "goroutines",
         "inputfile",
+        "nbins",
         "ndays",
         "ndead",
         "newstatus",
@@ -22,7 +27,10 @@
         "nvaccinated",
         "otherperson",
         "outputfile",
+        "overunderflow",
+        "pthread",
         "tprob",
+        "unbuffered",
         "vprob"
     ],
     "workbench.colorCustomizations": {

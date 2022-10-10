@@ -6,6 +6,7 @@
         "takumii.markdowntable",
         "mdickin.markdown-shortcuts",
         "streetsidesoftware.code-spell-checker",
-        "coddx.coddx-alpha"
+        "coddx.coddx-alpha",
+        "GrapeCity.gc-excelviewer"
     ]
 }

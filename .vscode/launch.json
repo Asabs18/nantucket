@@ -29,6 +29,15 @@
             "arguments": "0.0 0.015 analyze-0.0-0.015.dat",
             "cwd": "${workspaceRoot}",
             "valuesFormatting": "parseText"
+        },
+        {
+            "name": "Debug visualize",
+            "type": "gdb",
+            "request": "launch",
+            "target": "c-version/visualize",
+            "arguments": "1000 1250 analyze-0.0-0.015.dat visualize-0.0-0.015.dat",
+            "cwd": "${workspaceRoot}",
+            "valuesFormatting": "parseText"
         }
     ]
 }

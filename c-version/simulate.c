@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
   int ntrials = 1000;
 #endif // _ANALYZE_CPP_
   // Insert the rest of the program here!
-  assert(argc == 4);
+  assert(4 == argc);
   vprob = atof(argv[1]);
   tprob = atof(argv[2]);
   output = fopen(argv[3], "w");
@@ -69,10 +69,10 @@ int main(int argc, char *argv[]) {
         }
       }
       update_status(npeople, status, newstatus);
+      fprintf(output, "%d %d %d %d %d %d\n", day, nsusceptible, nrecovered,
+              nvaccinated, ninfected, ndead);
 #if defined _ANALYZE_CPP_
 #else
-    fprintf(output, "%d %d %d %d %d %d\n", day, nsusceptible, nrecovered,
-            nvaccinated, ninfected, ndead);
 #endif // _ANALYZE_CPP_
     }
 #if defined _ANALYZE_CPP_

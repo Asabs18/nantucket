@@ -1,4 +1,4 @@
-all: simulate analyze
+all: simulate analyze visualize
 
 CC = gcc
 override CFLAGS += -g -Wno-everything -pthread
@@ -10,5 +10,8 @@ simulate: simulate.c
 analyze: simulate.c analyze.c
 	$(CC) $(CFLAGS) -O0 -D_ANALYZE_CPP_ analyze.c -o "$@" -lm
 
+viualize: visualize.c
+	$(CC) $(CFLAGS) -O0 visualize.c -o "$@"
+
 clean:
-	rm -f simulate analyze
+	rm -f simulate analyze visualize
