@@ -5,7 +5,8 @@
 int main(int argc, char *argv[]) {
 
 #define nbins 50
-  // const int nbins = 50;
+  // FIXME - surface constants
+  //  const int nbins = 50;
   int bin[nbins] = {0};
   double dmin, dmax;
   double binsize;
