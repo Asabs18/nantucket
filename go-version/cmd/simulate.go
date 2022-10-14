@@ -220,7 +220,7 @@ func (environment Environment) countStatus(printSummary bool) (int, int, int, in
 }
 
 // Updates all environment variables that change when the day changes
-func (environment Environment) updateDay(printSummary bool) ([]Person, []Person, int, int, int, int) {
+func (environment *Environment) updateDay(printSummary bool) ([]Person, []Person, int, int, int, int) {
 	// Copies over the next status array to the current and generates a new next status array
 	copy(environment.currPopulationStatus, environment.nextPopulationStatus)
 	copy(environment.nextPopulationStatus, environment.getNextPopulationStatus())
@@ -336,6 +336,7 @@ func Simulate(populationSize int, vProb float64, tProb float64, dProb float64, n
 
 	// Open output file
 	pFile := environment.openFile(outputFile)
+	defer environment.closeFile(pFile)
 
 	// Update the current and next status arrays for each day and print the changes
 	for i := ZERO; i < nDays; i++ {
@@ -357,9 +358,6 @@ func Simulate(populationSize int, vProb float64, tProb float64, dProb float64, n
 			break
 		}
 	}
-
-	// Close output file
-	environment.closeFile(pFile)
 
 	// Display a final summary of the simulation
 	if !multiTrials {

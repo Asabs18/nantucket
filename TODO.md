@@ -8,11 +8,11 @@
 
 ### Todo
 
-- [ ] as: Review requirements for all 3 and propose design.  
-- [ ] as: Look into slice tricks  
-- [ ] as: Consider double buffering (does it make sense to get rid of copying)  
 - [ ] as: Look over c code (and rest of the project) for guidance  
 - [ ] as: Add my work into the cobra setup  
+- [ ] as: Look into concurrent potential (Trials, Days, People)
+- [ ] as: Refactor Go code 
+- [ ] as: Try to get go results to match pdf
 
 ### In Progress
 
