@@ -306,7 +306,7 @@ func parseCmdLine(args []string) (int, float64, float64, float64, int, string, b
 
 // Final Summary of simulation
 func printFinalSummary(environment Environment) {
-	color.HEX(WHITE).Println("\n\n\n================== Final SUMMARY ==================")
+	color.HEX(WHITE).Println("\n\n\n================== FINAL SUMMARY ==================")
 	color.HEX(WHITE).Println("     Population:               ", environment.populationSize)
 	color.HEX(WHITE).Println("     Vaccination Probability:  ", environment.vProb)
 	color.HEX(WHITE).Println("     Transmission Probability: ", environment.tProb)
@@ -382,7 +382,7 @@ func printMultiTrialSummary(environments []Environment) {
 		infected = append(infected, float64(environments[i].nInfected))
 	}
 
-	color.HEX(WHITE).Println("\n\n\n=============== Multi-Trial Summary ===============\n")
+	color.HEX(WHITE).Println("\n\n\n=============== MULTI-TRIAL SUMMARY ===============\n")
 	color.HEX(WHITE).Println("Number of Trials:             ", TRIALS, "\n")
 	color.HEX(YELLOW).Println("SUSCEPTIBLE:")
 	color.HEX(WHITE).Println("     Average Susceptible Across Trials: ", stat.Mean(susceptible, nil))
