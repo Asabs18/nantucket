@@ -21,27 +21,34 @@ int die_or_not(double dprob, int sick_days, int person, int npeople,
   if (rand01() < dprob) {
     return is_dead;
   }
+  //FIXME - surface constants
   if (status[person] > sick_days + 3.0 * normal()) {
     return is_recovered;
   }
   return status[person] + 1;
 }
 int main(int argc, char *argv[]) {
+  // FIXME - surface constants
   const int npeople = 1e+4;
   int status[npeople];
   int newstatus[npeople];
   int day, person;
   double vprob;         // Vaccination probability.
   double tprob;         // Transmission probability
+  // FIXME - surface constants
   double dprob = 0.015; // Death probability per day
+  // FIXME - surface constants
   int ndays = 100;
+  // FIXME - surface constants
   int initial_infections = 0.01 * npeople;
+  // FIXME - surface constants
   int sick_days = 14;
   FILE *output;
 #if defined _ANALYZE_CPP_
   double sum = 0;
   double sum2 = 0;
   int trial;
+  // FIXME - surface constants
   int ntrials = 1000;
 #endif // _ANALYZE_CPP_
   // Insert the rest of the program here!

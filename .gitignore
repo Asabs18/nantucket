@@ -4,6 +4,7 @@
 *
 
 # But not these files...
+
 # .vscode
 !.vscode/*
 # .configs
@@ -21,6 +22,7 @@
 !/.data
 !/*.dat
 !/*.xlsx
+
 # GO
 !*.go
 !go.sum
@@ -31,8 +33,10 @@
 !*.c
 !*.h
 !*.nix
+!*.src
+!*.include
 
-...even if they are in subdirectories
+#...even if they are in subdirectories
 !*/
 
 # # [gitignore/C.gitignore at main · github/gitignore](https://github.com/github/gitignore/blob/main/C.gitignore)

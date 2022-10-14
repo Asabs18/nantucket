@@ -3,7 +3,10 @@
     "explorer.fileNesting.patterns": {
         ".docs": "LICENSE, *.pdf, *.md, plot.txt",
         ".configs": "go.mod, go.sum, go.work, *.yaml, .gitignore, Makefile, .replit.txt, *.nix",
-        ".data": "*.dat, *.xlsx"
+        ".data": "*.dat, *.xlsx",
+        ".bins": "simulate, analyze, visualize",
+        ".include": "*.h",
+        ".src": "*.c"
     },
     "cSpell.words": [
         "Asab",
