@@ -9,6 +9,7 @@
         "Asab",
         "binno",
         "binsize",
+        "curr",
         "dmax",
         "dmin",
         "dprob",
@@ -29,6 +30,8 @@
         "outputfile",
         "overunderflow",
         "pthread",
+        "SICKDAYS",
+        "strs",
         "tprob",
         "unbuffered",
         "vprob"
