@@ -6,6 +6,7 @@ package cmd
 
 import (
 	"fmt"
+	"math"
 	"math/rand"
 	"os"
 	"strconv"
@@ -14,6 +15,7 @@ import (
 	"github.com/dariubs/percent"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
+	"gonum.org/v1/gonum/stat"
 )
 
 // CONSTANTS
@@ -30,7 +32,9 @@ const RED = "#FF0000"
 const GREEN = "#065535"
 const BLUE = "#0000FF"
 const ORANGE = "#FFA500"
+const YELLOW = "#FFFF00"
 const WHITE = "#FFFFFF"
+const TRIALS = 50
 
 //SECTION ===== PERSON STRUCT =====
 
@@ -155,7 +159,7 @@ func (environment Environment) getNextPopulationStatus() []Person {
 	return environment.nextPopulationStatus
 }
 
-func (environment Environment) initEnvironment() ([]Person, []Person, int, int, int, int, int, int) {
+func (environment Environment) initEnvironment(multiTrials bool) ([]Person, []Person, int, int, int, int, int, int) {
 	// Loops through each person in the population to assign them a status
 	for i := ZERO; i < environment.populationSize; i++ {
 		// Checks if a random number out of 100 is less than the probability of starting with a certain status and if so the current person is create with that status
@@ -170,7 +174,7 @@ func (environment Environment) initEnvironment() ([]Person, []Person, int, int, 
 
 	// Gets the status array for the next day and creates a summary of the current day status array
 	environment.nextPopulationStatus = environment.getNextPopulationStatus()
-	environment.nSusceptible, environment.nRecovered, environment.nVaccinated, environment.nDead, environment.nInfected = environment.countStatus(true)
+	environment.nSusceptible, environment.nRecovered, environment.nVaccinated, environment.nDead, environment.nInfected = environment.countStatus(multiTrials)
 
 	return environment.currPopulationStatus, environment.nextPopulationStatus, environment.populationSize, environment.nSusceptible, environment.nRecovered, environment.nVaccinated, environment.nDead, environment.nInfected
 }
@@ -216,13 +220,13 @@ func (environment Environment) countStatus(printSummary bool) (int, int, int, in
 }
 
 // Updates all environment variables that change when the day changes
-func (environment Environment) updateDay() ([]Person, []Person, int, int, int, int) {
+func (environment Environment) updateDay(printSummary bool) ([]Person, []Person, int, int, int, int) {
 	// Copies over the next status array to the current and generates a new next status array
 	copy(environment.currPopulationStatus, environment.nextPopulationStatus)
 	copy(environment.nextPopulationStatus, environment.getNextPopulationStatus())
 
 	//Prints a summary of the day and updates the nRecovered and nDead variables for that day
-	environment.nSusceptible, environment.nRecovered, _, environment.nDead, environment.nInfected = environment.countStatus(true)
+	environment.nSusceptible, environment.nRecovered, _, environment.nDead, environment.nInfected = environment.countStatus(printSummary)
 
 	return environment.currPopulationStatus, environment.nextPopulationStatus, environment.nRecovered, environment.nDead, environment.nSusceptible, environment.nInfected
 }
@@ -270,10 +274,11 @@ func (environment Environment) closeFile(pFile *os.File) {
 //SECTION ===== DRIVER FUNCTION =====
 
 // Takes a list of args and overwrites the default environment variables as necessary
-func parseCmdLine(args []string) (int, float64, float64, float64, int, string) {
+func parseCmdLine(args []string) (int, float64, float64, float64, int, string, bool) {
 	// Defines default environment variables
 	popSize, vProb, tProb, dProb, nDays := POPULATION_SIZE, V_PROB, T_PROB, D_PROB, N_DAYS
 	outputFile := "output.txt"
+	multiTrials := true
 
 	// If special values are passed in, loop through args and overwrite the specified values
 	if len(args) > ZERO {
@@ -290,11 +295,13 @@ func parseCmdLine(args []string) (int, float64, float64, float64, int, string) {
 				nDays, _ = strconv.Atoi(args[i][5:len(args[i])])
 			} else if strings.ToUpper(args[i][0:5]) == "FILE=" {
 				outputFile = args[i][5:len(args[i])]
+			} else if strings.ToUpper(args[i][0:6]) == "MULTI=" {
+				multiTrials, _ = strconv.ParseBool(args[i][6:len(args[i])])
 			}
 		}
 	}
 
-	return popSize, vProb, tProb, dProb, nDays, outputFile
+	return popSize, vProb, tProb, dProb, nDays, outputFile, multiTrials
 }
 
 // Final Summary of simulation
@@ -312,11 +319,9 @@ func printFinalSummary(environment Environment) {
 }
 
 // Driver function which updates the simulation for a certain number of days and prints a summary
-func Simulate(populationSize int, vProb float64, tProb float64, dProb float64, nDays int, outputFile string) {
-
+func Simulate(populationSize int, vProb float64, tProb float64, dProb float64, nDays int, outputFile string, multiTrials bool) Environment {
 	// Create Environment and local environment variables
 	var environment Environment
-
 	var currPopStatus []Person
 	var nextPopStatus []Person
 
@@ -327,7 +332,7 @@ func Simulate(populationSize int, vProb float64, tProb float64, dProb float64, n
 	environment.dProb = dProb
 	environment.nDays = nDays
 	environment.currDay = ZERO
-	environment.currPopulationStatus, environment.nextPopulationStatus, environment.populationSize, environment.nSusceptible, environment.nRecovered, environment.nVaccinated, environment.nDead, environment.nInfected = environment.initEnvironment()
+	environment.currPopulationStatus, environment.nextPopulationStatus, environment.populationSize, environment.nSusceptible, environment.nRecovered, environment.nVaccinated, environment.nDead, environment.nInfected = environment.initEnvironment(!multiTrials)
 
 	// Open output file
 	pFile := environment.openFile(outputFile)
@@ -337,7 +342,7 @@ func Simulate(populationSize int, vProb float64, tProb float64, dProb float64, n
 
 		// Update environment variables
 		environment.currDay = i + 1
-		currPopStatus, nextPopStatus, environment.nRecovered, environment.nDead, environment.nSusceptible, environment.nInfected = environment.updateDay()
+		currPopStatus, nextPopStatus, environment.nRecovered, environment.nDead, environment.nSusceptible, environment.nInfected = environment.updateDay(!multiTrials)
 		copy(environment.currPopulationStatus, currPopStatus)
 		copy(environment.nextPopulationStatus, nextPopStatus)
 
@@ -346,7 +351,9 @@ func Simulate(populationSize int, vProb float64, tProb float64, dProb float64, n
 
 		// Check if the virus has already run its course
 		if environment.nSusceptible == ZERO || environment.nInfected == ZERO {
-			color.HEX(WHITE).Println("\n\n      Simulation ended after", environment.currDay, "days \n The virus has run its course in Nantucket.")
+			if !multiTrials {
+				color.HEX(WHITE).Println("\n\n      Simulation ended after", environment.currDay, "days \n The virus has run its course in Nantucket.")
+			}
 			break
 		}
 	}
@@ -355,7 +362,41 @@ func Simulate(populationSize int, vProb float64, tProb float64, dProb float64, n
 	environment.closeFile(pFile)
 
 	// Display a final summary of the simulation
-	printFinalSummary(environment)
+	if !multiTrials {
+		printFinalSummary(environment)
+	}
+
+	return environment
+}
+
+func printMultiTrialSummary(environments []Environment) {
+	// Extract certain fields to perform stat operations on
+	var deaths []float64
+	var recovered []float64
+	var susceptible []float64
+	var infected []float64
+	for i := 0; i < TRIALS; i++ {
+		deaths = append(deaths, float64(environments[i].nDead))
+		recovered = append(recovered, float64(environments[i].nRecovered))
+		susceptible = append(susceptible, float64(environments[i].nSusceptible))
+		infected = append(infected, float64(environments[i].nInfected))
+	}
+
+	color.HEX(WHITE).Println("\n\n\n=============== Multi-Trial Summary ===============\n")
+	color.HEX(WHITE).Println("Number of Trials:             ", TRIALS, "\n")
+	color.HEX(YELLOW).Println("SUSCEPTIBLE:")
+	color.HEX(WHITE).Println("     Average Susceptible Across Trials: ", stat.Mean(susceptible, nil))
+	color.HEX(WHITE).Println("     STD of Susceptible Across Trials:  ", math.Sqrt(stat.Variance(susceptible, nil)))
+	color.HEX(ORANGE).Println("INFECTED:")
+	color.HEX(WHITE).Println("     Average Infections Across Trials:  ", stat.Mean(infected, nil))
+	color.HEX(WHITE).Println("     STD of Infections Across Trials:   ", math.Sqrt(stat.Variance(infected, nil)))
+	color.HEX(GREEN).Println("RECOVERIES:")
+	color.HEX(WHITE).Println("     Average Recoveries Across Trials:  ", stat.Mean(recovered, nil))
+	color.HEX(WHITE).Println("     STD of Recoveries Across Trials:   ", math.Sqrt(stat.Variance(recovered, nil)))
+	color.HEX(RED).Println("DEATHS:")
+	color.HEX(WHITE).Println("     Average Deaths Across Trials:      ", stat.Mean(deaths, nil))
+	color.HEX(WHITE).Println("     STD of Deaths Across Trials:       ", math.Sqrt(stat.Variance(deaths, nil)))
+
 }
 
 func init() {
@@ -373,8 +414,30 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		color.HEX(RED).Println("simulate called")
-		popSize, vProb, tProb, dProb, nDays, outputFile := parseCmdLine(args)
-		Simulate(popSize, vProb, tProb, dProb, nDays, outputFile)
+		color.HEX(GREEN).Println("simulate called")
+		popSize, vProb, tProb, dProb, nDays, outputFile, multiTrials := parseCmdLine(args)
+
+		var environments []Environment
+
+		if multiTrials {
+			for i := 0; i < TRIALS; i++ {
+				environments = append(environments, Simulate(popSize, vProb, tProb, dProb, nDays, outputFile, multiTrials))
+				color.HEX(GREEN).Println("RUNNING SIMULATION #", i+1, "| Deaths: ", environments[i].nDead, "| Recoveries: ", environments[i].nRecovered, "| Infected: ", environments[i].nInfected, "| Susceptible: ", environments[i].nSusceptible, "|")
+			}
+
+			printMultiTrialSummary(environments)
+		} else {
+			Simulate(popSize, vProb, tProb, dProb, nDays, outputFile, multiTrials)
+		}
 	},
 }
+
+// COMMAND LINE INSTRUCTIONS:
+//     RUN DEFAULT -       "go run main.go simulate"
+//     POPULATION SIZE -   "[RUN DEFAULT] pop=[INPUT: int]"
+//     VACCINE PROB -      "[RUN DEFAULT] vprob=[INPUT: float64]"
+//     TRANSMISSION PROB - "[RUN DEFAULT] tprob=[INPUT: float64]"
+//     DEATH PROB -        "[RUN DEFAULT] dprob=[INPUT: float64]"
+//     NUM DAYS -          "[RUN DEFAULT] days=[INPUT: int]"
+//     OUTPUT FILE -       "[RUN DEFAULT] file=[INPUT: string]"
+//     MULTI-TRIALS -      "[RUN DEFAULT] multi=[INPUT: bool]"
