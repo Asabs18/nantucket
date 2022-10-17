@@ -119,7 +119,7 @@ func (environment Environment) isInfected() bool {
 }
 
 // Generates the next days status array
-func (environment Environment) getNextPopulationStatus() []Person {
+func (environment *Environment) getNextPopulationStatus() {
 	// empties the previous nextPopulationStatus array
 	environment.nextPopulationStatus = nil
 
@@ -156,10 +156,9 @@ func (environment Environment) getNextPopulationStatus() []Person {
 
 	}
 
-	return environment.nextPopulationStatus
 }
 
-func (environment Environment) initEnvironment(multiTrials bool) ([]Person, []Person, int, int, int, int, int, int) {
+func (environment *Environment) initEnvironment(multiTrials bool) {
 	// Loops through each person in the population to assign them a status
 	for i := ZERO; i < environment.populationSize; i++ {
 		// Checks if a random number out of 100 is less than the probability of starting with a certain status and if so the current person is create with that status
@@ -173,62 +172,63 @@ func (environment Environment) initEnvironment(multiTrials bool) ([]Person, []Pe
 	}
 
 	// Gets the status array for the next day and creates a summary of the current day status array
-	environment.nextPopulationStatus = environment.getNextPopulationStatus()
-	environment.nSusceptible, environment.nRecovered, environment.nVaccinated, environment.nDead, environment.nInfected = environment.countStatus(multiTrials)
+	environment.getNextPopulationStatus()
+	environment.countStatus(multiTrials)
 
-	return environment.currPopulationStatus, environment.nextPopulationStatus, environment.populationSize, environment.nSusceptible, environment.nRecovered, environment.nVaccinated, environment.nDead, environment.nInfected
 }
 
 // Prints a summary of the people's status on the current day
-func (environment Environment) printPopulationSummary(nSusceptible int, nRecovered int, nVaccinated int, nDead int, nInfected int) {
+func (environment Environment) printPopulationSummary() {
 	color.HEX(WHITE).Println("=====  DAY ", environment.currDay, " =====")
-	color.HEX(BLUE).Println("   Susceptible: %", percent.PercentOf(nSusceptible, environment.populationSize))
-	color.HEX(GREEN).Println("   Recovered:   %", percent.PercentOf(nRecovered, environment.populationSize))
-	color.HEX(GREEN).Println("   Vaccinated:  %", percent.PercentOf(nVaccinated, environment.populationSize))
-	color.HEX(RED).Println("   Dead:        %", percent.PercentOf(nDead, environment.populationSize))
-	color.HEX(ORANGE).Println("   Infected:    %", percent.PercentOf(nInfected, environment.populationSize))
+	color.HEX(BLUE).Println("   Susceptible: %", percent.PercentOf(environment.nSusceptible, environment.populationSize))
+	color.HEX(GREEN).Println("   Recovered:   %", percent.PercentOf(environment.nRecovered, environment.populationSize))
+	color.HEX(GREEN).Println("   Vaccinated:  %", percent.PercentOf(environment.nVaccinated, environment.populationSize))
+	color.HEX(RED).Println("   Dead:        %", percent.PercentOf(environment.nDead, environment.populationSize))
+	color.HEX(ORANGE).Println("   Infected:    %", percent.PercentOf(environment.nInfected, environment.populationSize))
 
 }
 
 // Counts the amount of people with each status on the current day
-func (environment Environment) countStatus(printSummary bool) (int, int, int, int, int) {
-	// Init each status counter as zero
-	nSusceptible, nRecovered, nVaccinated, nDead, nInfected := ZERO, ZERO, ZERO, ZERO, ZERO
+func (environment *Environment) countStatus(printSummary bool) {
+	// Reset each counter to
+	environment.nSusceptible = 0
+	environment.nRecovered = 0
+	environment.nVaccinated = 0
+	environment.nDead = 0
+	environment.nInfected = 0
 
 	// Loop through the status array and update the counter for each appropriate status
 	for i := ZERO; i < environment.populationSize; i++ {
 		switch environment.currPopulationStatus[i].getStatus() {
 		case Susceptible:
-			nSusceptible = nSusceptible + 1
+			environment.nSusceptible++
 		case Recovered:
-			nRecovered = nRecovered + 1
+			environment.nRecovered++
 		case Vaccinated:
-			nVaccinated = nVaccinated + 1
+			environment.nVaccinated++
 		case Dead:
-			nDead = nDead + 1
+			environment.nDead++
 		default:
-			nInfected = nInfected + 1
+			environment.nInfected++
 		}
 	}
 
 	// Print the summary for the current day
 	if printSummary {
-		environment.printPopulationSummary(nSusceptible, nRecovered, nVaccinated, nDead, nInfected)
+		environment.printPopulationSummary()
 	}
-
-	return nSusceptible, nRecovered, nVaccinated, nDead, nInfected
 }
 
 // Updates all environment variables that change when the day changes
-func (environment *Environment) updateDay(printSummary bool) ([]Person, []Person, int, int, int, int) {
-	// Copies over the next status array to the current and generates a new next status array
+func (environment *Environment) updateDay(printSummary bool) {
+	// Copies over the next status array to the current array
 	copy(environment.currPopulationStatus, environment.nextPopulationStatus)
-	copy(environment.nextPopulationStatus, environment.getNextPopulationStatus())
 
-	//Prints a summary of the day and updates the nRecovered and nDead variables for that day
-	environment.nSusceptible, environment.nRecovered, _, environment.nDead, environment.nInfected = environment.countStatus(printSummary)
+	// Generates the status array for the next day
+	environment.getNextPopulationStatus()
 
-	return environment.currPopulationStatus, environment.nextPopulationStatus, environment.nRecovered, environment.nDead, environment.nSusceptible, environment.nInfected
+	// Prints a summary of the day and updates the nRecovered and nDead variables for that day
+	environment.countStatus(printSummary)
 }
 
 // Opens the specified file name
@@ -332,7 +332,7 @@ func Simulate(populationSize int, vProb float64, tProb float64, dProb float64, n
 	environment.dProb = dProb
 	environment.nDays = nDays
 	environment.currDay = ZERO
-	environment.currPopulationStatus, environment.nextPopulationStatus, environment.populationSize, environment.nSusceptible, environment.nRecovered, environment.nVaccinated, environment.nDead, environment.nInfected = environment.initEnvironment(!multiTrials)
+	environment.initEnvironment(!multiTrials)
 
 	// Open output file
 	pFile := environment.openFile(outputFile)
@@ -343,7 +343,7 @@ func Simulate(populationSize int, vProb float64, tProb float64, dProb float64, n
 
 		// Update environment variables
 		environment.currDay = i + 1
-		currPopStatus, nextPopStatus, environment.nRecovered, environment.nDead, environment.nSusceptible, environment.nInfected = environment.updateDay(!multiTrials)
+		environment.updateDay(!multiTrials)
 		copy(environment.currPopulationStatus, currPopStatus)
 		copy(environment.nextPopulationStatus, nextPopStatus)
 
