@@ -8,11 +8,11 @@
 
 ### Todo
 
+- [ ] as: Look over c code (and rest of the project) for guidance  
 - [ ] as: Add my work into the cobra setup  
 - [ ] as: Look into concurrent potential (Trials, Days, People)
-- [ ] as: Refactor Go code
+- [ ] as: Refactor Go code 
 - [ ] as: Try to get go results to match pdf
-- [ ] djg: Help/usage text for all.  
 
 ### In Progress
 
@@ -21,8 +21,6 @@
 
 ### Done ✓
 
-- [x] as: Look into concurrent potential (Trials, Days, People)
-- [x] as: Look over c code (and rest of the project) for guidance  
 - [x] djg: C versions of _analysis_ and _visualize_.  
 - [x] djg: Add initial GO files to repo.  
 - [x] djg: Update package name.  
