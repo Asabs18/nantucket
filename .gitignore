@@ -37,6 +37,7 @@
 !*.src
 !*.include
 !*.nix
+!.replit.txt
 !*.clang-format
 
 #...even if they are in subdirectories
