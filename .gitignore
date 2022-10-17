@@ -11,6 +11,7 @@
 !/.configs
 !/.gitignore
 !.configs/*
+!*.yaml
 # .docs
 !/.docs
 !/*.pdf
@@ -25,8 +26,9 @@
 
 # GO
 !*.go
-!go.sum
 !go.mod
+!go.sum
+!go.work
 
 # C
 !Makefile
