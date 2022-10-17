@@ -33,6 +33,7 @@
         "outputfile",
         "overunderflow",
         "pthread",
+        "pwrite",
         "SICKDAYS",
         "strs",
         "tprob",
@@ -43,5 +44,10 @@
         "activityBar.background": "#40272B",
         "titleBar.activeBackground": "#5A363C",
         "titleBar.activeForeground": "#FCF9FA"
-    }
+    },
+    "kanban.saveFiles.pathPreferences": [
+        ".vscode/kanban.json",
+        "kanban.json"
+    ],
+    "kanban.statusButton.alignment": "Left"
 }

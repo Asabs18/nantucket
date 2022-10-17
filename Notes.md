@@ -28,51 +28,75 @@
 
 ## C Version
 
-### Parallel Opportunities
+### Parallel Opportunities (Multi-Threading / `pthreads`)
 
-#### Definitions
+- data _axis_
+  - trials
+  - days
+  - people
+- _critical data_: `status[` _i + 1_ `] <- status [` _i_ `]`, that is:
 
-- `p`:  represents opportunities for parallelism
-  - processes
-  - _threads_ (`pthreads`)
-  - tasks
-  - _coroutines_ (`goroutines`)
-- `q`:  _data_ queue
-  - shared memory
-    - remote (process) queue
-  - pipes
-    - local (anonymous) /remote (named)
-  - global variables
-    - `pthread` managed queue(s)
-  - `uq`:     unbuffered queue
-  - `bq(n)`:  buffered queue
-- `t`:  number of trials
-- `d`:  number of days
-- `p`:  number of people
-- `i`:  number of _interactions_ a person has per day
+```C
+for each t in trials:
+  for each d in days:       // in the trial
+    for each p in persons:  // on each day in each trial
+      status[ p + 1 ] <- status [ p ]
+```
+
+#### [Models](https://maxim.int.ru/bookshelf/PthreadsProgram/htm/r_19.html)
+
+- Boss/Worker
+- Peer
+- Pipeline
+
+```C
+// communication mechanism
+//  - memory - communication is a via local (process) memory (pointer)
+//  - file - communication is a via a file (descriptor)
+//  - pipe - communication is a  via a pipe (descriptor)
+// using a pipe w/an eye towards GO channels, and eliminating the need to
+// implement a queue, and the associated exclusion/notification mechanisms.
+enum {
+  memory,
+  file,
+  pipe
+} channel_t;
+
+typedef struct {
+  channel_t chan;
+
+} thread_args_t;
+
+typedef struct {
+  channel_t chan;
+  union {
+    // pipe
+    int fd;
+    // memory
+    void* p;
+    // file
+    struct {
+      int fd;
+      off_t offset;
+    }
+  }
+}
+
+typedef struct {
+
+} thread_args_t;
+
+typedef struct {
+
+} thread_returns_t;
+```
+
 - `status[P]`: status of all people at the _beginning_ of each day (before `i`)
 - `newstatus[P]`: status of all people at the _end_ of each day (after `i`)
 - determining if person dies (`die_or_not()`) is independent of any other person
 - determining if a person becomes infected (`catch_or_not()`) is dependent on `i` other _random_ people
   - `newstatus[x]` is dependent on `i` _previous statuses_
     - `status` or `newstatus`, _if already updated_
-
-#### Trial
-
-- run `n` trials in parallel
-  - enqueue `uq`: `t` - `n`
-  - dequeue until empty
-- one `p` executes `t` / `p` trials in parallel
-  - no queue
-
-#### Day
-
-- run `n` days in pipeline
-- same as Trials
-  
-#### Person
-
-- either❓
 
 [^simulate]: _`simulate` `vprob` `tprob` `file`_
 [^analyze]:  _`analyze` `vprob` `tprob` `file`_

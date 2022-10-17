@@ -32,9 +32,10 @@
 !Makefile
 !*.c
 !*.h
-!*.nix
 !*.src
 !*.include
+!*.nix
+!*.clang-format
 
 #...even if they are in subdirectories
 !*/

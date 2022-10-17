@@ -5,6 +5,7 @@
 #include <stdlib.h>
 int catch_or_not(double tprob, int npeople, int status[]) {
   // Insert function here!
+  // FIXME - surface constants
   int nexposures = 20 * rand01();
   for (size_t i = 0; i < nexposures; i++) {
     int otherperson = rand01() * npeople;
@@ -60,7 +61,9 @@ int main(int argc, char *argv[]) {
   nvaccinated = vprob * npeople;
 #if defined _ANALYZE_CPP_
   for (trial = 0; trial < ntrials; trial++) {
-    printf("Processing trial %d\n", trial);
+    if(trial%20==0){
+      printf("Processing trial %d\n", trial);
+    }
 #endif // _ANALYZE_CPP_
     initialize_status(npeople, initial_infections, nvaccinated, status);
 
