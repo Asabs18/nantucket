@@ -2,12 +2,11 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-int main(int argc, char *argv[]) {
 
-#define nbins 50
-  // FIXME - surface constants
-  //  const int nbins = 50;
-  int bin[nbins] = {0};
+#include "args.h"
+
+int main(int argc, char *argv[]) {
+  int bin[nbins] = { 0 };
   double dmin, dmax;
   double binsize;
   int trial;
@@ -19,15 +18,14 @@ int main(int argc, char *argv[]) {
   FILE *output;
   // Insert Program Here
   assert(5 == argc);
-  dmin = atof(argv[1]);
-  dmax = atof(argv[2]);
+  dmin  = atof(argv[1]);
+  dmax  = atof(argv[2]);
   input = fopen(argv[3], "r");
   assert(input);
   output = fopen(argv[4], "w");
   assert(output);
   binsize = (dmax - dmin) / nbins;
-  while (6 == fscanf(input, "%d %d %d %d %d %d\n", &trial, &nsusceptible,
-                     &nrecovered, &nvaccinated, &ninfected, &ndead)) {
+  while (6 == fscanf(input, "%d %d %d %d %d %d\n", &trial, &nsusceptible, &nrecovered, &nvaccinated, &ninfected, &ndead)) {
     if (dmin <= ndead && ndead <= dmax) {
       binno = (ndead - dmin) / binsize;
       bin[binno]++;

@@ -1,7 +1,10 @@
-// Global variables:
-// Counters:
-#include <sys/types.h>
-int nsusceptible, ninfected, nrecovered, nvaccinated, ndead;
+#if !defined(_VIRUS_H_)
+  #define _VIRUS_H_
+
+  // Global variables:
+  // Counters:
+  #include <sys/types.h>
+extern int nsusceptible, ninfected, nrecovered, nvaccinated, ndead;
 // Status indicators:
 // Any positive value indicates user has been infected for n days.
 // Negative values indicate:
@@ -10,7 +13,7 @@ const int is_recovered   = -1;
 const int is_vaccinated  = -2;
 const int is_dead        = -3;
 // Update status of each person and count them
-void update_status(int npeople, int status[], int newstatus[]) {
+inline void update_status(int npeople, int status[], int newstatus[]) {
   int i;
   // Reset counters in preparation for counting:
   nsusceptible = 0;
@@ -30,7 +33,7 @@ void update_status(int npeople, int status[], int newstatus[]) {
     }
   }
 }
-void initialize_status(int npeople, int initial_infections, int nvaccinated, int status[]) {
+inline void initialize_status(int npeople, int initial_infections, int nvaccinated, int status[]) {
   int i;
   int vmax;
   // Initial infections:
@@ -108,3 +111,4 @@ inline void update(const thread_args_t* args) {
     }
   }
 }
+#endif  // _VIRUS_H_
