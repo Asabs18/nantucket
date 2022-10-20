@@ -2,11 +2,14 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "args.h"
 
 int main(int argc, char *argv[]) {
-  int bin[nbins] = { 0 };
+  int nbins = default_number_bins;
+  int bins[nbins];
+  memset(bins, 0, sizeof bins);
   double dmin, dmax;
   double binsize;
   int trial;
@@ -28,7 +31,7 @@ int main(int argc, char *argv[]) {
   while (6 == fscanf(input, "%d %d %d %d %d %d\n", &trial, &nsusceptible, &nrecovered, &nvaccinated, &ninfected, &ndead)) {
     if (dmin <= ndead && ndead <= dmax) {
       binno = (ndead - dmin) / binsize;
-      bin[binno]++;
+      bins[binno]++;
 
     } else {
       overunderflow++;
@@ -37,7 +40,7 @@ int main(int argc, char *argv[]) {
   fclose(input);
   for (int i = 0; i < nbins; i++) {
     int ndead = dmin + binsize * (0.5 + i);
-    fprintf(output, "%d %d\n", ndead, bin[i]);
+    fprintf(output, "%d %d\n", ndead, bins[i]);
   }
   fprintf(output, "# Underflows/Overflows: %d\n", overunderflow);
   fclose(output);

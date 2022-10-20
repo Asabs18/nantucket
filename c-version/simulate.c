@@ -14,7 +14,7 @@ int nsusceptible, ninfected, nrecovered, nvaccinated, ndead;
 
 int catch_or_not(double tprob, int npeople, int status[]) {
   // Insert function here!
-  int nexposures = max_exposures * rand01();
+  int nexposures = default_max_exposures_per_day * rand01();
   for (size_t i = 0; i < nexposures; i++) {
     int otherperson = rand01() * npeople;
     if (status[otherperson] > 0) {
@@ -28,28 +28,28 @@ int die_or_not(double dprob, int sick_days, int person, int npeople, int status[
   if (rand01() < dprob) {
     return is_dead;
   }
-  if (status[person] > sick_days + max_random_sick_days * normal()) {
+  if (status[person] > sick_days + default_max_random_sick_days * normal()) {
     return is_recovered;
   }
   return status[person] + 1;
 }
 int main(int argc, char *argv[]) {
-  const int npeople = max_people;
+  const int npeople = default_people_per_trial;
   int status[npeople];
   int newstatus[npeople];
   int day, person;
   double vprob;                                 // Vaccination probability.
   double tprob;                                 // Transmission probability
   double dprob           = default_death_prob;  // Death probability per day
-  int ndays              = number_of_trial_days;
-  int initial_infections = percent_initial_infections * npeople;
-  int sick_days          = number_of_sick_days;
+  int ndays              = default_number_of_trial_days;
+  int initial_infections = default_percent_initial_infections * npeople;
+  int sick_days          = default_number_of_sick_days;
   FILE *output;
 #if defined _ANALYZE_CPP_
   double sum  = 0;
   double sum2 = 0;
   int trial;
-  int ntrials = number_of_trials;
+  int ntrials = default_number_of_trials;
 #endif  // _ANALYZE_CPP_
   // Insert the rest of the program here!
   assert(4 == argc);
