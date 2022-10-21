@@ -1,121 +1,81 @@
-# Based on: # https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
+# data
+*.dat
 
-# Ignore everything
-*
+# Prerequisites
+*.d
 
-# But not these files...
+# Object files
+*.o
+*.ko
+*.obj
+*.elf
 
-# .vscode
-!.vscode/*
-# .configs
-!/.configs
-!/.gitignore
-!.configs/*
-!*.yaml
-# .docs
-!/.docs
-!/*.pdf
-!/*.md
-!/*.txt
-!LICENSE
-!.docs/*
-# .data
-!/.data
-!/*.dat
-!/*.xlsx
+# Linker output
+*.ilk
+*.map
+*.exp
 
-# GO
-!*.go
-!go.mod
-!go.sum
-!go.work
+# Precompiled Headers
+*.gch
+*.pch
 
-# C
-!Makefile
-!*.c
-!*.h
-!*.src
-!*.include
-!*.nix
-!.replit.txt
-!*.clang-format
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
 
-#...even if they are in subdirectories
-!*/
+# Shared objects (inc. Windows DLLs)
+*.dll
+*.so
+*.so.*
+*.dylib
 
-# # [gitignore/C.gitignore at main · github/gitignore](https://github.com/github/gitignore/blob/main/C.gitignore)
-# # Prerequisites
-# *.d
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+simulate
+analyze
+visualize
+nantucket
 
-# # Object files
-# *.o
-# *.ko
-# *.obj
-# *.elf
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
 
-# # Linker output
-# *.ilk
-# *.map
-# *.exp
+# Kernel Module Compile Results
+*.mod*
+*.cmd
+.tmp_versions/
+modules.order
+Module.symvers
+Mkfile.old
+dkms.conf
 
-# # Precompiled Headers
-# *.gch
-# *.pch
+# If you prefer the allow list template instead of the deny list, see community template:
+# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
+#
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
 
-# # Libraries
-# *.lib
-# *.a
-# *.la
-# *.lo
+# Test binary, built with `go test -c`
+*.test
 
-# # Shared objects (inc. Windows DLLs)
-# *.dll
-# *.so
-# *.so.*
-# *.dylib
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
 
-# # Executables
-# *.exe
-# *.out
-# *.app
-# *.i*86
-# *.x86_64
-# *.hex
-# main
-# # Debug files
-# *.dSYM/
-# *.su
-# *.idb
-# *.pdb
+# Dependency directories (remove the comment below to include it)
+# vendor/
 
-# # Kernel Module Compile Results
-# *.mod*
-# *.cmd
-# .tmp_versions/
-# modules.order
-# Module.symvers
-# Mkfile.old
-# dkms.conf
-
-# [gitignore/Go.gitignore at main · github/gitignore](https://github.com/github/gitignore/blob/main/Go.gitignore)
-# # If you prefer the allow list template instead of the deny list, see community template:
-# # https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
-# #
-# # Binaries for programs and plugins
-# *.exe
-# *.exe~
-# *.dll
-# *.so
-# *.dylib
-
-# # Test binary, built with `go test -c`
-# *.test
-
-# # Output of the go coverage tool, specifically when used with LiteIDE
-# *.out
-
-# # Dependency directories (remove the comment below to include it)
-# # vendor/
-
-# # Go workspace file
-# go.work
+# Go workspace file
+go.work

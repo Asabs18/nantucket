@@ -5,9 +5,6 @@
 #include "args.h"
 #include "random.h"
 #include "virus.h"
-
-extern inline void initialize_status(int npeople, int initial_infections, int nvaccinated, int status[]);
-extern inline void update_status(int npeople, int status[], int newstatus[]);
 // Global variables:
 // Counters:
 int nsusceptible, ninfected, nrecovered, nvaccinated, ndead;
@@ -34,7 +31,7 @@ int die_or_not(double dprob, int sick_days, int person, int npeople, int status[
   return status[person] + 1;
 }
 int main(int argc, char *argv[]) {
-  const int npeople = default_people_per_trial;
+  const int npeople = default_number_of_people_per_trial;
   int status[npeople];
   int newstatus[npeople];
   int day, person;

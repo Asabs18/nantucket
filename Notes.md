@@ -28,6 +28,17 @@
 
 ## C Version
 
+### Loggers
+
+- [yksz/c-logger: A simple logging library for C/C++](https://github.com/yksz/c-logger)
+- [rxi/log.c: A simple logging library implemented in C99](https://github.com/rxi/log.c)
+
+### Command Line Parsers
+
+- [getopt(3) - Linux manual page](https://www.man7.org/linux/man-pages/man3/getopt.3.html)
+- [Argp (The GNU C Library)](https://www.gnu.org/software/libc/manual/html_node/Argp.html)
+- [opt command line parser - Table of Contents](https://public.lanl.gov/jt/Software/opt/opt_toc.html)
+
 ### Parallel Opportunities (Multi-Threading / `pthreads`)
 
 - data _axis_
