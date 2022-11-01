@@ -45,13 +45,21 @@ func Execute() {
 
 func init() {
 	// HACK: where to put config vars?
-	var vprob float32
-	var tprob float32
-	var input_file string
+	var popSize int
+	var vProb float32
+	var tProb float32
+	var dProb float32
+	var nDays int
+	var output_file string
+	var multiTrials bool
 
-	rootCmd.PersistentFlags().Float32P("vprob", "v", vprob, "vprob")
-	rootCmd.PersistentFlags().Float32P("tprob", "t", tprob, "tprob")
-	rootCmd.PersistentFlags().String("input-file", input_file, "input-file")
+	rootCmd.Flags().Int("popSize", popSize, "popSize")
+	rootCmd.PersistentFlags().Float32P("vProb", "v", vProb, "vProb")
+	rootCmd.PersistentFlags().Float32P("tProb", "t", tProb, "tProb")
+	rootCmd.PersistentFlags().Float32P("dProb", "d", dProb, "dProb")
+	rootCmd.Flags().Int("nDays", nDays, "nDays")
+	simulateCmd.Flags().BoolP("multi", "m", multiTrials, "Run multiple trials or not")
+	rootCmd.PersistentFlags().String("output-file", output_file, "output-file")
 	cobra.OnInitialize(initConfig)
 
 	// Here you will define your flags and configuration settings.
