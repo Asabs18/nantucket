@@ -2,9 +2,9 @@
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
         ".docs": "LICENSE, *.pdf, *.md, plot.txt",
-        ".configs": "go.mod, go.sum, go.work, *.yaml, .gitignore, Makefile, .replit.txt, *.nix",
+        ".configs": "go.mod, go.sum, go.work, *.yaml, .gitignore, Makefile, .replit.txt, *.nix, .clang-format",
         ".data": "*.dat, *.xlsx",
-        ".bins": "simulate, analyze, visualize",
+        ".bins": "simulate, analyze, visualize, nantucket",
         ".include": "*.h",
         ".src": "*.c"
     },
@@ -21,11 +21,13 @@
         "nbins",
         "ndays",
         "ndead",
+        "needsrand",
         "newstatus",
         "nexposures",
         "ninfected",
         "npeople",
         "nrecovered",
+        "nroll",
         "nsusceptible",
         "ntrials",
         "nvaccinated",
@@ -38,7 +40,8 @@
         "strs",
         "tprob",
         "unbuffered",
-        "vprob"
+        "vprob",
+        "yksz"
     ],
     "workbench.colorCustomizations": {
         "activityBar.background": "#40272B",

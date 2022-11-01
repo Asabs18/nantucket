@@ -1,8 +1,11 @@
-#include <stdlib.h>
-#include <time.h>
+#if !defined(_RANDOM_H_)
+  #define _RANDOM_H_
+
+  #include <stdlib.h>
+  #include <time.h>
 
 // Random number between zero and one
-double rand01() {
+inline static double rand01() {
   static int needsrand = 1;
   if (needsrand) {
     // FIXME - surface constants ala munit
@@ -13,8 +16,8 @@ double rand01() {
 }
 // Normal distribution:
 // FIXME - surface constants???
-double normal() {
-  int nroll = 12;
+inline static double normal() {
+  int nroll  = 12;
   double sum = 0;
   int i;
   for (i = 0; i < nroll; i++) {
@@ -22,3 +25,4 @@ double normal() {
   }
   return (sum - 6.0);
 }
+#endif  // _RANDOM_H_
