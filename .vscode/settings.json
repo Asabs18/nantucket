@@ -49,10 +49,7 @@
     "workbench.colorCustomizations": {
         "activityBar.background": "#40272B",
         "titleBar.activeBackground": "#5A363C",
-        "titleBar.activeForeground": "#FCF9FA",
-        "tab.activeBorder": "#f5f9ad",
-        "statusBar.background": "#f5f9ad",
-        "statusBar.foreground": "#000000"
+        "titleBar.activeForeground": "#FCF9FA"
     },
     "kanban.saveFiles.pathPreferences": [
         ".vscode/kanban.json",
@@ -60,6 +57,5 @@
     ],
     "kanban.statusButton.alignment": "Left",
     "editor.tabCompletion": "on",
-    "diffEditor.codeLens": true,
-    "window.title": "~[cmd]~${separator}${dirty}${activeEditorShort}${separator}${rootName}${separator}${appName}"
+    "diffEditor.codeLens": true
 }
