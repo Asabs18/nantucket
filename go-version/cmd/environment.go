@@ -11,23 +11,31 @@ import (
 	"github.com/gookit/color"
 )
 
+//SECTION ===== CMD LINE STRUCT =====
+
+type CmdLineVars struct {
+	populationSize int
+	vProb          float64
+	tProb          float64
+	dProb          float64
+	nDays          int
+	outputFile     string
+	multiTrials    bool
+}
+
 //SECTION ===== ENVIRONMENT STRUCT =====
 
 // Creates Environment ADT which hold all info about the current simulation
 type Environment struct {
 	currDay              int
-	populationSize       int
-	nDays                int
 	nSusceptible         int
 	nRecovered           int
 	nVaccinated          int
 	nDead                int
 	nInfected            int
-	vProb                float64
-	tProb                float64
-	dProb                float64
 	currPopulationStatus []Person
 	nextPopulationStatus []Person
+	cmdLineVars          CmdLineVars
 }
 
 // Decides a random number of exposers and simulates each one to see if a person gets infected or not
@@ -41,11 +49,11 @@ func (environment Environment) IsInfected() bool {
 	for j := ZERO; j < numExposures; j++ {
 
 		// Gets a random person from the list to see if they are infected and have the ability to transmit the virus
-		randomPerson := environment.currPopulationStatus[rand.Intn(environment.populationSize)]
+		randomPerson := environment.currPopulationStatus[rand.Intn(environment.cmdLineVars.populationSize)]
 
 		// If the random person is infected check if the current person gets infected based on the transmission probability
 		if randomPerson.stringifyStatus() == "Infected" {
-			if float64(rand.Intn(100)) < environment.tProb {
+			if float64(rand.Intn(100)) < environment.cmdLineVars.tProb {
 				isInfected = true
 			}
 		}
@@ -60,7 +68,7 @@ func (environment *Environment) getNextPopulationStatus() {
 	environment.nextPopulationStatus = nil
 
 	// Loops through each person in the environment to assign them each a new status
-	for i := ZERO; i < environment.populationSize; i++ {
+	for i := ZERO; i < environment.cmdLineVars.populationSize; i++ {
 
 		resolved := false
 		// If a person is susceptible, simulate a random number of interactions, if that person gets infect update their new status accordingly
@@ -79,7 +87,7 @@ func (environment *Environment) getNextPopulationStatus() {
 			if environment.currPopulationStatus[i].getStatus() >= SICK_DAYS {
 				environment.nextPopulationStatus = append(environment.nextPopulationStatus, Person{status: Recovered})
 				resolved = true
-			} else if float64(rand.Intn(100)) < environment.dProb {
+			} else if float64(rand.Intn(100)) < environment.cmdLineVars.dProb {
 				environment.nextPopulationStatus = append(environment.nextPopulationStatus, Person{status: Dead})
 				resolved = true
 			}
@@ -96,11 +104,11 @@ func (environment *Environment) getNextPopulationStatus() {
 
 func (environment *Environment) initEnvironment(multiTrials bool) {
 	// Loops through each person in the population to assign them a status
-	for i := ZERO; i < environment.populationSize; i++ {
+	for i := ZERO; i < environment.cmdLineVars.populationSize; i++ {
 		// Checks if a random number out of 100 is less than the probability of starting with a certain status and if so the current person is create with that status
 		if rand.Intn(100) < INITIAL_INFECTION_PERCENT {
 			environment.currPopulationStatus = append(environment.currPopulationStatus, Person{status: NewlyInfected})
-		} else if float64(rand.Intn(100)) < environment.vProb {
+		} else if float64(rand.Intn(100)) < environment.cmdLineVars.vProb {
 			environment.currPopulationStatus = append(environment.currPopulationStatus, Person{status: Vaccinated})
 		} else {
 			environment.currPopulationStatus = append(environment.currPopulationStatus, Person{status: Susceptible})
@@ -116,11 +124,11 @@ func (environment *Environment) initEnvironment(multiTrials bool) {
 // Prints a summary of the people's status on the current day
 func (environment Environment) printPopulationSummary() {
 	color.HEX(WHITE).Println("=====  DAY ", environment.currDay, " =====")
-	color.HEX(BLUE).Println("   Susceptible: %", percent.PercentOf(environment.nSusceptible, environment.populationSize))
-	color.HEX(GREEN).Println("   Recovered:   %", percent.PercentOf(environment.nRecovered, environment.populationSize))
-	color.HEX(GREEN).Println("   Vaccinated:  %", percent.PercentOf(environment.nVaccinated, environment.populationSize))
-	color.HEX(RED).Println("   Dead:        %", percent.PercentOf(environment.nDead, environment.populationSize))
-	color.HEX(ORANGE).Println("   Infected:    %", percent.PercentOf(environment.nInfected, environment.populationSize))
+	color.HEX(BLUE).Println("   Susceptible: %", percent.PercentOf(environment.nSusceptible, environment.cmdLineVars.populationSize))
+	color.HEX(GREEN).Println("   Recovered:   %", percent.PercentOf(environment.nRecovered, environment.cmdLineVars.populationSize))
+	color.HEX(GREEN).Println("   Vaccinated:  %", percent.PercentOf(environment.nVaccinated, environment.cmdLineVars.populationSize))
+	color.HEX(RED).Println("   Dead:        %", percent.PercentOf(environment.nDead, environment.cmdLineVars.populationSize))
+	color.HEX(ORANGE).Println("   Infected:    %", percent.PercentOf(environment.nInfected, environment.cmdLineVars.populationSize))
 
 }
 
@@ -134,7 +142,7 @@ func (environment *Environment) countStatus(printSummary bool) {
 	environment.nInfected = 0
 
 	// Loop through the status array and update the counter for each appropriate status
-	for i := ZERO; i < environment.populationSize; i++ {
+	for i := ZERO; i < environment.cmdLineVars.populationSize; i++ {
 		switch environment.currPopulationStatus[i].getStatus() {
 		case Susceptible:
 			environment.nSusceptible++
@@ -184,7 +192,7 @@ func (environment Environment) openFile(outputFile string) *os.File {
 // Writes the current days status information to the output file
 func (environment Environment) writeDayToFile(pFile *os.File) {
 	// Create output string from current days values and write it to the output file\
-	strs := []string{strconv.Itoa(environment.nDays), strconv.Itoa(environment.nSusceptible), strconv.Itoa(environment.nRecovered), strconv.Itoa(environment.nVaccinated), strconv.Itoa(environment.nInfected), strconv.Itoa(environment.nDead), "\n"}
+	strs := []string{strconv.Itoa(environment.cmdLineVars.nDays), strconv.Itoa(environment.nSusceptible), strconv.Itoa(environment.nRecovered), strconv.Itoa(environment.nVaccinated), strconv.Itoa(environment.nInfected), strconv.Itoa(environment.nDead), "\n"}
 	output := strings.Join(strs, ",")
 	_, err := pFile.WriteString(output)
 

@@ -45,22 +45,22 @@ func Execute() {
 
 func init() {
 	// HACK: where to put config vars?
-	var popSize int
-	var vProb float32
-	var tProb float32
-	var dProb float32
-	var nDays int
-	var output_file string
-	var multiTrials bool
+	// var popSize int
+	// var vProb float32
+	// var tProb float32
+	// var dProb float32
+	// var nDays int
+	// var output_file string
+	// var multiTrials bool
 
-	rootCmd.Flags().Int("popSize", popSize, "popSize")
-	rootCmd.PersistentFlags().Float32P("vProb", "v", vProb, "vProb")
-	rootCmd.PersistentFlags().Float32P("tProb", "t", tProb, "tProb")
-	rootCmd.PersistentFlags().Float32P("dProb", "d", dProb, "dProb")
-	rootCmd.Flags().Int("nDays", nDays, "nDays")
-	simulateCmd.Flags().BoolP("multi", "m", multiTrials, "Run multiple trials or not")
-	rootCmd.PersistentFlags().String("output-file", output_file, "output-file")
-	cobra.OnInitialize(initConfig)
+	// rootCmd.Flags().Int("popSize", popSize, "popSize")
+	// rootCmd.PersistentFlags().Float32P("vProb", "v", vProb, "vProb")
+	// rootCmd.PersistentFlags().Float32P("tProb", "t", tProb, "tProb")
+	// rootCmd.PersistentFlags().Float32P("dProb", "d", dProb, "dProb")
+	// rootCmd.Flags().Int("nDays", nDays, "nDays")
+	// simulateCmd.Flags().BoolP("multi", "m", multiTrials, "Run multiple trials or not")
+	// rootCmd.PersistentFlags().String("output-file", output_file, "output-file")
+	// cobra.OnInitialize(initConfig)
 
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
