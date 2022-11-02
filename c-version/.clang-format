@@ -6,5 +6,7 @@ AlignConsecutiveAssignments: Consecutive
 AlignConsecutiveMacros: Consecutive
 Cpp11BracedListStyle: false
 ColumnLimit: 145
+DerivePointerAlignment: false
 IndentPPDirectives: BeforeHash
+PointerAlignment: Left
 SpaceAfterCStyleCast: true
