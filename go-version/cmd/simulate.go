@@ -35,7 +35,7 @@ const TRIALS = 50
 //SECTION ===== DRIVER FUNCTION =====
 
 // Takes a list of args and overwrites the default environment variables as necessary
-func parseCmdLine(args []string) (int, float64, float64, float64, int, string, bool) {
+func parseCmdLine(args []string) CmdLineVars {
 	// Defines default environment variables
 	popSize, vProb, tProb, dProb, nDays := POPULATION_SIZE, V_PROB, T_PROB, D_PROB, N_DAYS
 	outputFile := "output.txt"
@@ -62,49 +62,49 @@ func parseCmdLine(args []string) (int, float64, float64, float64, int, string, b
 		}
 	}
 
-	return popSize, vProb, tProb, dProb, nDays, outputFile, multiTrials
+	return CmdLineVars{popSize, vProb, tProb, dProb, nDays, outputFile, multiTrials}
 }
 
 // Final Summary of simulation
 func printFinalSummary(environment Environment) {
 	color.HEX(WHITE).Println("\n\n\n================== FINAL SUMMARY ==================")
-	color.HEX(WHITE).Println("     Population:               ", environment.populationSize)
-	color.HEX(WHITE).Println("     Vaccination Probability:  ", environment.vProb)
-	color.HEX(WHITE).Println("     Transmission Probability: ", environment.tProb)
-	color.HEX(WHITE).Println("     Death Probability:        ", environment.dProb)
+	color.HEX(WHITE).Println("     Population:               ", environment.cmdLineVars.populationSize)
+	color.HEX(WHITE).Println("     Vaccination Probability:  ", environment.cmdLineVars.vProb)
+	color.HEX(WHITE).Println("     Transmission Probability: ", environment.cmdLineVars.tProb)
+	color.HEX(WHITE).Println("     Death Probability:        ", environment.cmdLineVars.dProb)
 	color.HEX(WHITE).Println("     Initial Infections:       ", environment.nInfected)
-	color.HEX(WHITE).Println("     Simulation Period:        ", environment.nDays, "Days")
+	color.HEX(WHITE).Println("     Simulation Period:        ", environment.cmdLineVars.nDays, "Days")
 	color.HEX(WHITE).Println("     Number Recovered:         ", environment.nRecovered)
 	color.HEX(WHITE).Println("     Number Dead:              ", environment.nDead)
-	color.HEX(WHITE).Println("     Case Fatality Rate:       ", percent.PercentOf(environment.nDead, environment.populationSize), "Percent")
+	color.HEX(WHITE).Println("     Case Fatality Rate:       ", percent.PercentOf(environment.nDead, environment.cmdLineVars.populationSize), "Percent")
 }
 
 // Driver function which updates the simulation for a certain number of days and prints a summary
-func Simulate(populationSize int, vProb float64, tProb float64, dProb float64, nDays int, outputFile string, multiTrials bool) Environment {
+func Simulate(cmdLineVars CmdLineVars) Environment {
 	// Create Environment and local environment variables
 	var environment Environment
 	var currPopStatus []Person
 	var nextPopStatus []Person
 
 	// Init environment variables
-	environment.populationSize = populationSize
-	environment.vProb = vProb
-	environment.tProb = tProb
-	environment.dProb = dProb
-	environment.nDays = nDays
+	environment.cmdLineVars.populationSize = cmdLineVars.populationSize
+	environment.cmdLineVars.vProb = cmdLineVars.vProb
+	environment.cmdLineVars.tProb = cmdLineVars.tProb
+	environment.cmdLineVars.dProb = cmdLineVars.dProb
+	environment.cmdLineVars.nDays = cmdLineVars.nDays
 	environment.currDay = ZERO
-	environment.initEnvironment(!multiTrials)
+	environment.initEnvironment(!cmdLineVars.multiTrials)
 
 	// Open output file
-	pFile := environment.openFile(outputFile)
+	pFile := environment.openFile(cmdLineVars.outputFile)
 	defer environment.closeFile(pFile)
 
 	// Update the current and next status arrays for each day and print the changes
-	for i := ZERO; i < nDays; i++ {
+	for i := ZERO; i < cmdLineVars.nDays; i++ {
 
 		// Update environment variables
 		environment.currDay = i + 1
-		environment.updateDay(!multiTrials)
+		environment.updateDay(!cmdLineVars.multiTrials)
 		copy(environment.currPopulationStatus, currPopStatus)
 		copy(environment.nextPopulationStatus, nextPopStatus)
 
@@ -113,7 +113,7 @@ func Simulate(populationSize int, vProb float64, tProb float64, dProb float64, n
 
 		// Check if the virus has already run its course
 		if environment.nSusceptible == ZERO || environment.nInfected == ZERO {
-			if !multiTrials {
+			if !cmdLineVars.multiTrials {
 				color.HEX(WHITE).Println("\n\n      Simulation ended after", environment.currDay, "days \n The virus has run its course in Nantucket.")
 			}
 			break
@@ -121,7 +121,7 @@ func Simulate(populationSize int, vProb float64, tProb float64, dProb float64, n
 	}
 
 	// Display a final summary of the simulation
-	if !multiTrials {
+	if !cmdLineVars.multiTrials {
 		printFinalSummary(environment)
 	}
 
@@ -159,6 +159,24 @@ func printMultiTrialSummary(environments []Environment) {
 }
 
 func init() {
+
+	var popSize int
+	var vProb float32
+	var tProb float32
+	var dProb float32
+	var nDays int
+	var output_file string
+	var multiTrials bool
+
+	rootCmd.Flags().Int("popSize", popSize, "popSize")
+	rootCmd.PersistentFlags().Float32P("vProb", "v", vProb, "vProb")
+	rootCmd.PersistentFlags().Float32P("tProb", "t", tProb, "tProb")
+	rootCmd.PersistentFlags().Float32P("dProb", "d", dProb, "dProb")
+	rootCmd.Flags().Int("nDays", nDays, "nDays")
+	simulateCmd.Flags().BoolP("multi", "m", multiTrials, "Run multiple trials or not")
+	rootCmd.PersistentFlags().String("output-file", output_file, "output-file")
+	cobra.OnInitialize(initConfig)
+
 	rootCmd.AddCommand(simulateCmd)
 }
 
@@ -174,19 +192,20 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		color.HEX(GREEN).Println("simulate called")
-		popSize, vProb, tProb, dProb, nDays, outputFile, multiTrials := parseCmdLine(args)
 
 		var environments []Environment
 
-		if multiTrials {
+		cmdLineVars := parseCmdLine(args)
+
+		if cmdLineVars.multiTrials {
 			for i := 0; i < TRIALS; i++ {
-				environments = append(environments, Simulate(popSize, vProb, tProb, dProb, nDays, outputFile, multiTrials))
+				environments = append(environments, Simulate(cmdLineVars))
 				color.HEX(GREEN).Println("RUNNING SIMULATION #", i+1, "| Deaths: ", environments[i].nDead, "| Recoveries: ", environments[i].nRecovered, "| Infected: ", environments[i].nInfected, "| Susceptible: ", environments[i].nSusceptible, "|")
 			}
 
 			printMultiTrialSummary(environments)
 		} else {
-			Simulate(popSize, vProb, tProb, dProb, nDays, outputFile, multiTrials)
+			Simulate(cmdLineVars)
 		}
 	},
 }

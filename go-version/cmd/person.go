@@ -13,6 +13,20 @@ const (
 	Dead          Status = -3
 )
 
+type StatusTest int64
+
+const (
+	TestNewlyInfected StatusTest = 10
+	TestSusceptible   StatusTest = 0
+	TestRecovered     StatusTest = -11
+	TestVaccinated    StatusTest = -22
+	TestDead          StatusTest = -34
+)
+
+//go:generate stringer -type=Status
+
+//go:generate stringer -type=StatusTest
+
 // Define Person ADT which just holds one status
 type Person struct {
 	status Status

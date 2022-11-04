@@ -13,6 +13,7 @@ go 1.18
 require (
 	github.com/dariubs/percent v1.0.0
 	github.com/gookit/color v1.5.2
+	github.com/icub3d/stringify v0.0.0-20160309153253-70e980763c0c // indirect
 	github.com/spf13/cobra v1.6.0
 	github.com/spf13/viper v1.13.0
 	gonum.org/v1/gonum v0.12.0
