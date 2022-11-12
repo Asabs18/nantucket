@@ -80,7 +80,7 @@ func printFinalSummary(environment Environment) {
 }
 
 // Driver function which updates the simulation for a certain number of days and prints a summary
-func Simulate(cmdLineVars CmdLineVars) Environment {
+func Simulate(cmdLineVars CmdLineVars, fullSummary bool) Environment {
 	// Create Environment and local environment variables
 	var environment Environment
 	var currPopStatus []Person
@@ -93,7 +93,7 @@ func Simulate(cmdLineVars CmdLineVars) Environment {
 	environment.cmdLineVars.dProb = cmdLineVars.dProb
 	environment.cmdLineVars.nDays = cmdLineVars.nDays
 	environment.currDay = ZERO
-	environment.initEnvironment(!cmdLineVars.multiTrials)
+	environment.initEnvironment(fullSummary)
 
 	// Open output file
 	pFile := environment.openFile(cmdLineVars.outputFile)
@@ -104,7 +104,7 @@ func Simulate(cmdLineVars CmdLineVars) Environment {
 
 		// Update environment variables
 		environment.currDay = i + 1
-		environment.updateDay(!cmdLineVars.multiTrials)
+		environment.updateDay(fullSummary)
 		copy(environment.currPopulationStatus, currPopStatus)
 		copy(environment.nextPopulationStatus, nextPopStatus)
 
@@ -121,7 +121,8 @@ func Simulate(cmdLineVars CmdLineVars) Environment {
 	}
 
 	// Display a final summary of the simulation
-	if !cmdLineVars.multiTrials {
+
+	if fullSummary {
 		printFinalSummary(environment)
 	}
 
@@ -143,6 +144,7 @@ func printMultiTrialSummary(environments []Environment) {
 
 	color.HEX(WHITE).Println("\n\n\n=============== MULTI-TRIAL SUMMARY ===============\n")
 	color.HEX(WHITE).Println("Number of Trials:             ", TRIALS, "\n")
+	//TODO: Fix the rest of the multitrial summary
 	// color.HEX(YELLOW).Println("SUSCEPTIBLE:")
 	// color.HEX(WHITE).Println("     Average Susceptible Across Trials: ", stat.Mean(susceptible, nil))
 	// color.HEX(WHITE).Println("     STD of Susceptible Across Trials:  ", math.Sqrt(stat.Variance(susceptible, nil)))
@@ -193,20 +195,9 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		color.HEX(GREEN).Println("simulate called")
 
-		var environments []Environment
-
 		cmdLineVars := parseCmdLine(args)
 
-		if cmdLineVars.multiTrials {
-			for i := 0; i < TRIALS; i++ {
-				environments = append(environments, Simulate(cmdLineVars))
-				color.HEX(GREEN).Println("RUNNING SIMULATION #", i+1, "| Deaths: ", environments[i].nDead, "| Recoveries: ", environments[i].nRecovered, "| Infected: ", environments[i].nInfected, "| Susceptible: ", environments[i].nSusceptible, "|")
-			}
-
-			printMultiTrialSummary(environments)
-		} else {
-			Simulate(cmdLineVars)
-		}
+		Simulate(cmdLineVars, true)
 	},
 }
 

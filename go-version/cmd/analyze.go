@@ -7,6 +7,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/gookit/color"
 	"github.com/spf13/cobra"
 )
 
@@ -22,6 +23,21 @@ This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("analyze called")
+
+		var environments []Environment
+
+		cmdLineVars := parseCmdLine(args)
+
+		if cmdLineVars.multiTrials {
+			for i := 0; i < TRIALS; i++ {
+				environments = append(environments, Simulate(cmdLineVars, false))
+				color.HEX(GREEN).Println("RUNNING SIMULATION #", i+1, "| Deaths: ", environments[i].nDead, "| Recoveries: ", environments[i].nRecovered, "| Infected: ", environments[i].nInfected, "| Susceptible: ", environments[i].nSusceptible, "|")
+			}
+
+			printMultiTrialSummary(environments)
+		} else {
+			Simulate(cmdLineVars, true)
+		}
 	},
 }
 
