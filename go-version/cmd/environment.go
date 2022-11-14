@@ -102,7 +102,7 @@ func (environment *Environment) getNextPopulationStatus() {
 
 }
 
-func (environment *Environment) initEnvironment(multiTrials bool) {
+func (environment *Environment) New() {
 	// Loops through each person in the population to assign them a status
 	for i := ZERO; i < environment.cmdLineVars.populationSize; i++ {
 		// Checks if a random number out of 100 is less than the probability of starting with a certain status and if so the current person is create with that status
@@ -117,7 +117,7 @@ func (environment *Environment) initEnvironment(multiTrials bool) {
 
 	// Gets the status array for the next day and creates a summary of the current day status array
 	environment.getNextPopulationStatus()
-	environment.countStatus(multiTrials)
+	environment.countStatus()
 
 }
 
@@ -133,7 +133,7 @@ func (environment Environment) printPopulationSummary() {
 }
 
 // Counts the amount of people with each status on the current day
-func (environment *Environment) countStatus(printSummary bool) {
+func (environment *Environment) countStatus() {
 	// Reset each counter to
 	environment.nSusceptible = 0
 	environment.nRecovered = 0
@@ -158,13 +158,13 @@ func (environment *Environment) countStatus(printSummary bool) {
 	}
 
 	// Print the summary for the current day
-	if printSummary {
+	if environment.cmdLineVars.numTrials > 1 {
 		environment.printPopulationSummary()
 	}
 }
 
 // Updates all environment variables that change when the day changes
-func (environment *Environment) updateDay(printSummary bool) {
+func (environment *Environment) updateDay() {
 	// Copies over the next status array to the current array
 	copy(environment.currPopulationStatus, environment.nextPopulationStatus)
 
@@ -172,7 +172,7 @@ func (environment *Environment) updateDay(printSummary bool) {
 	environment.getNextPopulationStatus()
 
 	// Prints a summary of the day and updates the nRecovered and nDead variables for that day
-	environment.countStatus(printSummary)
+	environment.countStatus()
 }
 
 // Opens the specified file name

@@ -5,9 +5,6 @@ This file is part of the `nantucket` project.
 package cmd
 
 import (
-	"strconv"
-	"strings"
-
 	"github.com/dariubs/percent"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
@@ -34,36 +31,6 @@ const N_TRIALS = 50
 
 //SECTION ===== DRIVER FUNCTION =====
 
-// Takes a list of args and overwrites the default environment variables as necessary
-func parseCmdLine(args []string) CmdLineVars {
-	// Defines default environment variables
-	popSize, vProb, tProb, dProb, nDays, numTrials := POPULATION_SIZE, V_PROB, T_PROB, D_PROB, N_DAYS, N_TRIALS
-	outputFile := "output.txt"
-
-	// If special values are passed in, loop through args and overwrite the specified values
-	if len(args) > ZERO {
-		for i := ZERO; i < len(args); i++ {
-			if strings.ToUpper(args[i][0:4]) == "POP=" {
-				popSize, _ = strconv.Atoi(args[i][4:len(args[i])])
-			} else if strings.ToUpper(args[i][0:6]) == "VPROB=" {
-				vProb, _ = strconv.ParseFloat(args[i][6:len(args[i])], 64)
-			} else if strings.ToUpper(args[i][0:6]) == "TPROB=" {
-				tProb, _ = strconv.ParseFloat(args[i][6:len(args[i])], 64)
-			} else if strings.ToUpper(args[i][0:6]) == "DPROB=" {
-				dProb, _ = strconv.ParseFloat(args[i][6:len(args[i])], 64)
-			} else if strings.ToUpper(args[i][0:5]) == "DAYS=" {
-				nDays, _ = strconv.Atoi(args[i][5:len(args[i])])
-			} else if strings.ToUpper(args[i][0:5]) == "FILE=" {
-				outputFile = args[i][5:len(args[i])]
-			} else if strings.ToUpper(args[i][0:6]) == "MULTI=" {
-				_, _ = strconv.ParseBool(args[i][6:len(args[i])])
-			}
-		}
-	}
-
-	return CmdLineVars{popSize, vProb, tProb, dProb, nDays, outputFile, numTrials}
-}
-
 // Final Summary of simulation
 func printFinalSummary(environment Environment) {
 	color.HEX(WHITE).Println("\n\n\n================== FINAL SUMMARY ==================")
@@ -86,13 +53,9 @@ func Simulate(cmdLineVars CmdLineVars, fullSummary bool) Environment {
 	var nextPopStatus []Person
 
 	// Init environment variables
-	environment.cmdLineVars.populationSize = cmdLineVars.populationSize
-	environment.cmdLineVars.vProb = cmdLineVars.vProb
-	environment.cmdLineVars.tProb = cmdLineVars.tProb
-	environment.cmdLineVars.dProb = cmdLineVars.dProb
-	environment.cmdLineVars.nDays = cmdLineVars.nDays
+	environment.New()
+	environment.cmdLineVars = cmdLineVars
 	environment.currDay = ZERO
-	environment.initEnvironment(fullSummary)
 
 	// Open output file
 	pFile := environment.openFile(cmdLineVars.outputFile)
@@ -103,7 +66,7 @@ func Simulate(cmdLineVars CmdLineVars, fullSummary bool) Environment {
 
 		// Update environment variables
 		environment.currDay = i + 1
-		environment.updateDay(fullSummary)
+		environment.updateDay()
 		copy(environment.currPopulationStatus, currPopStatus)
 		copy(environment.nextPopulationStatus, nextPopStatus)
 
@@ -159,23 +122,24 @@ func printMultiTrialSummary(environments []Environment) {
 
 }
 
+var cmdLineVars CmdLineVars
+
 func init() {
 
-	var popSize int
-	var vProb float32
-	var tProb float32
-	var dProb float32
-	var nDays int
-	var output_file string
-	var numTrials int
+	// var vProb float32
+	// var tProb float32
+	// var dProb float32
+	// var nDays int
+	// var output_file string
+	// var numTrials int
 
-	rootCmd.Flags().Int("popSize", popSize, "popSize")
-	rootCmd.PersistentFlags().Float32P("vProb", "v", vProb, "vProb")
-	rootCmd.PersistentFlags().Float32P("tProb", "t", tProb, "tProb")
-	rootCmd.PersistentFlags().Float32P("dProb", "d", dProb, "dProb")
-	rootCmd.Flags().Int("nDays", nDays, "nDays")
-	simulateCmd.Flags().Int("multi", numTrials, "Run multiple trials or not")
-	rootCmd.PersistentFlags().String("output-file", output_file, "output-file")
+	rootCmd.Flags().Int("popSize", cmdLineVars.populationSize, "popSize")
+	rootCmd.PersistentFlags().Float64P("vProb", "v", cmdLineVars.vProb, "vProb")
+	rootCmd.PersistentFlags().Float64P("tProb", "t", cmdLineVars.tProb, "tProb")
+	rootCmd.PersistentFlags().Float64P("dProb", "d", cmdLineVars.dProb, "dProb")
+	rootCmd.Flags().Int("nDays", cmdLineVars.nDays, "nDays")
+	simulateCmd.Flags().Int("multi", cmdLineVars.numTrials, "Run multiple trials or not")
+	rootCmd.PersistentFlags().String("output-file", cmdLineVars.outputFile, "output-file")
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.AddCommand(simulateCmd)
@@ -196,9 +160,9 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		color.HEX(GREEN).Println("simulate called")
 
-		var environments []Environment
-
 		if cmdLineVars.numTrials > 1 {
+			var environments []Environment
+
 			for i := 0; i < N_TRIALS; i++ {
 				environments = append(environments, Simulate(cmdLineVars, false))
 				color.HEX(GREEN).Println("RUNNING SIMULATION #", i+1, "| Deaths: ", environments[i].nDead, "| Recoveries: ", environments[i].nRecovered, "| Infected: ", environments[i].nInfected, "| Susceptible: ", environments[i].nSusceptible, "|")
