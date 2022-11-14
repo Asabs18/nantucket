@@ -20,7 +20,7 @@ type CmdLineVars struct {
 	dProb          float64
 	nDays          int
 	outputFile     string
-	multiTrials    bool
+	numTrials      int
 }
 
 //SECTION ===== ENVIRONMENT STRUCT =====

@@ -20,7 +20,11 @@ _visualize_ creates a histogram of deaths, bounded by dmin and dmax.
  
  The resultant histogram is written to the supplied output file.`,
 	Run: func(cmd *cobra.Command, args []string) {
+		//func (c *Command) Flag(name string) (flag *flag.Flag)
 		fmt.Println("visualize called")
+
+		tprob := cmd.Flag("tProb")
+		fmt.Println(tprob.Value)
 	},
 }
 

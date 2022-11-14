@@ -30,16 +30,15 @@ const BLUE = "#0000FF"
 const ORANGE = "#FFA500"
 const YELLOW = "#FFFF00"
 const WHITE = "#FFFFFF"
-const TRIALS = 50
+const N_TRIALS = 50
 
 //SECTION ===== DRIVER FUNCTION =====
 
 // Takes a list of args and overwrites the default environment variables as necessary
 func parseCmdLine(args []string) CmdLineVars {
 	// Defines default environment variables
-	popSize, vProb, tProb, dProb, nDays := POPULATION_SIZE, V_PROB, T_PROB, D_PROB, N_DAYS
+	popSize, vProb, tProb, dProb, nDays, numTrials := POPULATION_SIZE, V_PROB, T_PROB, D_PROB, N_DAYS, N_TRIALS
 	outputFile := "output.txt"
-	multiTrials := true
 
 	// If special values are passed in, loop through args and overwrite the specified values
 	if len(args) > ZERO {
@@ -57,12 +56,12 @@ func parseCmdLine(args []string) CmdLineVars {
 			} else if strings.ToUpper(args[i][0:5]) == "FILE=" {
 				outputFile = args[i][5:len(args[i])]
 			} else if strings.ToUpper(args[i][0:6]) == "MULTI=" {
-				multiTrials, _ = strconv.ParseBool(args[i][6:len(args[i])])
+				_, _ = strconv.ParseBool(args[i][6:len(args[i])])
 			}
 		}
 	}
 
-	return CmdLineVars{popSize, vProb, tProb, dProb, nDays, outputFile, multiTrials}
+	return CmdLineVars{popSize, vProb, tProb, dProb, nDays, outputFile, numTrials}
 }
 
 // Final Summary of simulation
@@ -113,7 +112,7 @@ func Simulate(cmdLineVars CmdLineVars, fullSummary bool) Environment {
 
 		// Check if the virus has already run its course
 		if environment.nSusceptible == ZERO || environment.nInfected == ZERO {
-			if !cmdLineVars.multiTrials {
+			if cmdLineVars.numTrials == 1 {
 				color.HEX(WHITE).Println("\n\n      Simulation ended after", environment.currDay, "days \n The virus has run its course in Nantucket.")
 			}
 			break
@@ -135,7 +134,7 @@ func printMultiTrialSummary(environments []Environment) {
 	var recovered []float64
 	var susceptible []float64
 	var infected []float64
-	for i := 0; i < TRIALS; i++ {
+	for i := 0; i < N_TRIALS; i++ {
 		deaths = append(deaths, float64(environments[i].nDead))
 		recovered = append(recovered, float64(environments[i].nRecovered))
 		susceptible = append(susceptible, float64(environments[i].nSusceptible))
@@ -143,7 +142,7 @@ func printMultiTrialSummary(environments []Environment) {
 	}
 
 	color.HEX(WHITE).Println("\n\n\n=============== MULTI-TRIAL SUMMARY ===============\n")
-	color.HEX(WHITE).Println("Number of Trials:             ", TRIALS, "\n")
+	color.HEX(WHITE).Println("Number of Trials:             ", N_TRIALS, "\n")
 	//TODO: Fix the rest of the multitrial summary
 	// color.HEX(YELLOW).Println("SUSCEPTIBLE:")
 	// color.HEX(WHITE).Println("     Average Susceptible Across Trials: ", stat.Mean(susceptible, nil))
@@ -168,18 +167,20 @@ func init() {
 	var dProb float32
 	var nDays int
 	var output_file string
-	var multiTrials bool
+	var numTrials int
 
 	rootCmd.Flags().Int("popSize", popSize, "popSize")
 	rootCmd.PersistentFlags().Float32P("vProb", "v", vProb, "vProb")
 	rootCmd.PersistentFlags().Float32P("tProb", "t", tProb, "tProb")
 	rootCmd.PersistentFlags().Float32P("dProb", "d", dProb, "dProb")
 	rootCmd.Flags().Int("nDays", nDays, "nDays")
-	simulateCmd.Flags().BoolP("multi", "m", multiTrials, "Run multiple trials or not")
+	simulateCmd.Flags().Int("multi", numTrials, "Run multiple trials or not")
 	rootCmd.PersistentFlags().String("output-file", output_file, "output-file")
 	cobra.OnInitialize(initConfig)
 
 	rootCmd.AddCommand(simulateCmd)
+
+	//TODO: Use "var := cmd.Flag("varName")" in what context?
 }
 
 // simulateCmd represents the simulate command
@@ -195,9 +196,18 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		color.HEX(GREEN).Println("simulate called")
 
-		cmdLineVars := parseCmdLine(args)
+		var environments []Environment
 
-		Simulate(cmdLineVars, true)
+		if cmdLineVars.numTrials > 1 {
+			for i := 0; i < N_TRIALS; i++ {
+				environments = append(environments, Simulate(cmdLineVars, false))
+				color.HEX(GREEN).Println("RUNNING SIMULATION #", i+1, "| Deaths: ", environments[i].nDead, "| Recoveries: ", environments[i].nRecovered, "| Infected: ", environments[i].nInfected, "| Susceptible: ", environments[i].nSusceptible, "|")
+			}
+
+			printMultiTrialSummary(environments)
+		} else {
+			Simulate(cmdLineVars, true)
+		}
 	},
 }
 
