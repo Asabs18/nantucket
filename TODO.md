@@ -10,6 +10,8 @@
 
 ### Todo
 
+- [ ] as: Update go
+- [ ] as: Read up on cobra(issues in simulate)
 - [ ] as: make sure all variables are covered from args.h (c-version)
 - [ ] as: Write visualize
 - [ ] as: Change structure from serial to concurrent model based on trial
