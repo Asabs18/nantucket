@@ -5,9 +5,12 @@ This file is part of the `nantucket` project.
 package cmd
 
 import (
+	"math"
+
 	"github.com/dariubs/percent"
 	"github.com/gookit/color"
 	"github.com/spf13/cobra"
+	"gonum.org/v1/gonum/stat"
 	//"gonum.org/v1/gonum/stat"
 )
 
@@ -106,19 +109,18 @@ func printMultiTrialSummary(environments []Environment) {
 
 	color.HEX(WHITE).Println("\n\n\n=============== MULTI-TRIAL SUMMARY ===============\n")
 	color.HEX(WHITE).Println("Number of Trials:             ", N_TRIALS, "\n")
-	//TODO: Fix the rest of the multitrial summary
-	// color.HEX(YELLOW).Println("SUSCEPTIBLE:")
-	// color.HEX(WHITE).Println("     Average Susceptible Across Trials: ", stat.Mean(susceptible, nil))
-	// color.HEX(WHITE).Println("     STD of Susceptible Across Trials:  ", math.Sqrt(stat.Variance(susceptible, nil)))
-	// color.HEX(ORANGE).Println("INFECTED:")
-	// color.HEX(WHITE).Println("     Average Infections Across Trials:  ", stat.Mean(infected, nil))
-	// color.HEX(WHITE).Println("     STD of Infections Across Trials:   ", math.Sqrt(stat.Variance(infected, nil)))
-	// color.HEX(GREEN).Println("RECOVERIES:")
-	// color.HEX(WHITE).Println("     Average Recoveries Across Trials:  ", stat.Mean(recovered, nil))
-	// color.HEX(WHITE).Println("     STD of Recoveries Across Trials:   ", math.Sqrt(stat.Variance(recovered, nil)))
-	// color.HEX(RED).Println("DEATHS:")
-	// color.HEX(WHITE).Println("     Average Deaths Across Trials:      ", stat.Mean(deaths, nil))
-	// color.HEX(WHITE).Println("     STD of Deaths Across Trials:       ", math.Sqrt(stat.Variance(deaths, nil)))
+	color.HEX(YELLOW).Println("SUSCEPTIBLE:")
+	color.HEX(WHITE).Println("     Average Susceptible Across Trials: ", stat.Mean(susceptible, nil))
+	color.HEX(WHITE).Println("     STD of Susceptible Across Trials:  ", math.Sqrt(stat.Variance(susceptible, nil)))
+	color.HEX(ORANGE).Println("INFECTED:")
+	color.HEX(WHITE).Println("     Average Infections Across Trials:  ", stat.Mean(infected, nil))
+	color.HEX(WHITE).Println("     STD of Infections Across Trials:   ", math.Sqrt(stat.Variance(infected, nil)))
+	color.HEX(GREEN).Println("RECOVERIES:")
+	color.HEX(WHITE).Println("     Average Recoveries Across Trials:  ", stat.Mean(recovered, nil))
+	color.HEX(WHITE).Println("     STD of Recoveries Across Trials:   ", math.Sqrt(stat.Variance(recovered, nil)))
+	color.HEX(RED).Println("DEATHS:")
+	color.HEX(WHITE).Println("     Average Deaths Across Trials:      ", stat.Mean(deaths, nil))
+	color.HEX(WHITE).Println("     STD of Deaths Across Trials:       ", math.Sqrt(stat.Variance(deaths, nil)))
 
 }
 
@@ -160,18 +162,15 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		color.HEX(GREEN).Println("simulate called")
 
-		if cmdLineVars.numTrials > 1 {
-			var environments []Environment
+		var environments []Environment
 
-			for i := 0; i < N_TRIALS; i++ {
-				environments = append(environments, Simulate(cmdLineVars, false))
-				color.HEX(GREEN).Println("RUNNING SIMULATION #", i+1, "| Deaths: ", environments[i].nDead, "| Recoveries: ", environments[i].nRecovered, "| Infected: ", environments[i].nInfected, "| Susceptible: ", environments[i].nSusceptible, "|")
-			}
-
-			printMultiTrialSummary(environments)
-		} else {
-			Simulate(cmdLineVars, true)
+		for i := 0; i < cmdLineVars.numTrials; i++ {
+			environments = append(environments, Simulate(cmdLineVars, false))
+			color.HEX(GREEN).Println("RUNNING SIMULATION #", i+1, "| Deaths: ", environments[i].nDead, "| Recoveries: ", environments[i].nRecovered, "| Infected: ", environments[i].nInfected, "| Susceptible: ", environments[i].nSusceptible, "|")
 		}
+
+		printMultiTrialSummary(environments)
+
 	},
 }
 

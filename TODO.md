@@ -11,10 +11,6 @@
 ### Todo
 
 - [ ] as: make sure all variables are covered from args.h (c-version)
-- [ ] as: Change loop to work with one or more than one trial
-- [ ] as: Change go setup to work with 2 commands(simulate/visualize)
-- [ ] as: Try to get go results to match pdf
-- [ ] as: Use the output file from cmdLineVars to store csv data
 - [ ] as: Write visualize
 - [ ] as: Change structure from serial to concurrent model based on trial
 - [ ] as: SPIKE: go routines and channels
@@ -22,11 +18,15 @@
 
 ### In Progress
 
+- [ ] as: Use the output file from cmdLineVars to store csv data
+- [ ] as: Try to get go results to match pdf
 - [ ] djg: Surface all constants in the c-version  
 - [ ] djg: Spec out MT version  
 
 ### Done ✓
 
+- [x] as: Change go setup to work with 2 commands(simulate/visualize)
+- [x] as: Change loop to work with one or more than one trial
 - [x] as: Add Cobra command line
 - [x] as: Refactor Go code 
 - [x] as: Add my work into the cobra setup  
