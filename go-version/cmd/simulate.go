@@ -140,7 +140,7 @@ func init() {
 	rootCmd.PersistentFlags().Float64P("tProb", "t", cmdLineVars.tProb, "tProb")
 	rootCmd.PersistentFlags().Float64P("dProb", "d", cmdLineVars.dProb, "dProb")
 	rootCmd.Flags().Int("nDays", cmdLineVars.nDays, "nDays")
-	simulateCmd.Flags().Int("multi", cmdLineVars.numTrials, "Run multiple trials or not")
+	simulateCmd.Flags().IntVar(&cmdLineVars.numTrials,"numTrials", cmdLineVars.numTrials, "Run multiple trials or not")
 	rootCmd.PersistentFlags().String("output-file", cmdLineVars.outputFile, "output-file")
 	cobra.OnInitialize(initConfig)
 
