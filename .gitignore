@@ -9,6 +9,7 @@
 *.ko
 *.obj
 *.elf
+build/
 
 # Linker output
 *.ilk
@@ -42,6 +43,7 @@ simulate
 analyze
 visualize
 nantucket
+nuance
 
 # Debug files
 *.dSYM/
