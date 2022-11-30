@@ -1,53 +1,70 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Package",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "go-version/main.go",
+      "args": [
+        "simulate",
+        "--numTrials=27"
+      ]
+    },
+    {
+      "name": "Debug nantucket",
+      "type": "gdb",
+      "request": "launch",
+      "target": "c-version/nantucket",
+      "arguments": "",
+      "cwd": "${workspaceRoot}",
+      "valuesFormatting": "parseText"
+    },
+    {
+      "name": "Debug simulate",
+      "type": "gdb",
+      "request": "launch",
+      "target": "c-version/simulate",
+      "arguments": "0.0 0.015 simulate-0.0-0.015.dat",
+      "cwd": "${workspaceRoot}",
+      "valuesFormatting": "parseText"
+    },
+    {
+      "name": "Debug analyze",
+      "type": "gdb",
+      "request": "launch",
+      "target": "c-version/analyze",
+      "arguments": "0.0 0.015 analyze-0.0-0.015.dat",
+      "cwd": "${workspaceRoot}",
+      "valuesFormatting": "parseText"
+    },
+    {
+      "name": "Debug visualize",
+      "type": "gdb",
+      "request": "launch",
+      "target": "c-version/visualize",
+      "arguments": "1000 1250 analyze-0.0-0.015.dat visualize-0.0-0.015.dat",
+      "cwd": "${workspaceRoot}",
+      "valuesFormatting": "parseText"
+    },
+    {
+      "name": "C/C++ Runner: Debug Session",
+      "type": "cppdbg",
+      "request": "launch",
+      "args": [],
+      "stopAtEntry": false,
+      "externalConsole": false,
+      "cwd": "/home/davegi/repos/nantucket/c-version",
+      "program": "/home/davegi/repos/nantucket/c-version/build/Debug/outDebug",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb",
+      "setupCommands": [
         {
-            "name": "Launch Package",
-            "type": "go",
-            "request": "launch",
-            "mode": "auto",
-            "program": "go-version/main.go",
-            "args": ["simulate", "--numTrials=30"]
-        },
-        {
-            "name": "Debug nantucket",
-            "type": "gdb",
-            "request": "launch",
-            "target": "c-version/nantucket",
-            "arguments": "",
-            "cwd": "${workspaceRoot}",
-            "valuesFormatting": "parseText"
-        },
-        {
-            "name": "Debug simulate",
-            "type": "gdb",
-            "request": "launch",
-            "target": "c-version/simulate",
-            "arguments": "0.0 0.015 simulate-0.0-0.015.dat",
-            "cwd": "${workspaceRoot}",
-            "valuesFormatting": "parseText"
-        },
-        {
-            "name": "Debug analyze",
-            "type": "gdb",
-            "request": "launch",
-            "target": "c-version/analyze",
-            "arguments": "0.0 0.015 analyze-0.0-0.015.dat",
-            "cwd": "${workspaceRoot}",
-            "valuesFormatting": "parseText"
-        },
-        {
-            "name": "Debug visualize",
-            "type": "gdb",
-            "request": "launch",
-            "target": "c-version/visualize",
-            "arguments": "1000 1250 analyze-0.0-0.015.dat visualize-0.0-0.015.dat",
-            "cwd": "${workspaceRoot}",
-            "valuesFormatting": "parseText"
+          "text": "-enable-pretty-printing",
+          "ignoreFailures": true
         }
-    ]
+      ]
+    }
+  ]
 }
