@@ -11,7 +11,6 @@
 ### Todo
 
 - [ ] as: Update go
-- [ ] as: Read up on cobra(issues in simulate)
 - [ ] as: make sure all variables are covered from args.h (c-version)
 - [ ] as: Write visualize
 - [ ] as: Change structure from serial to concurrent model based on trial
@@ -20,6 +19,7 @@
 
 ### In Progress
 
+- [ ] as: Read up on cobra(issues in simulate)
 - [ ] as: Use the output file from cmdLineVars to store csv data
 - [ ] as: Try to get go results to match pdf
 - [ ] djg: Surface all constants in the c-version  

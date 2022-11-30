@@ -10,8 +10,8 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${fileDirname}",
-            "args": ["visualize", "--tProb=27"]
+            "program": "go-version/main.go",
+            "args": ["simulate", "--numTrials=30"]
         },
         {
             "name": "Debug nantucket",

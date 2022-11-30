@@ -140,7 +140,7 @@ func init() {
 	rootCmd.PersistentFlags().Float64P("tProb", "t", cmdLineVars.tProb, "tProb")
 	rootCmd.PersistentFlags().Float64P("dProb", "d", cmdLineVars.dProb, "dProb")
 	rootCmd.Flags().Int("nDays", cmdLineVars.nDays, "nDays")
-	simulateCmd.Flags().Int("multi", cmdLineVars.numTrials, "Run multiple trials or not")
+	simulateCmd.Flags().Int("numTrials", cmdLineVars.numTrials, "Run multiple trials or not")
 	rootCmd.PersistentFlags().String("output-file", cmdLineVars.outputFile, "output-file")
 	cobra.OnInitialize(initConfig)
 
@@ -163,6 +163,8 @@ to quickly create a Cobra application.`,
 		color.HEX(GREEN).Println("simulate called")
 
 		var environments []Environment
+		cmd.Flags().Parse()
+		cmdLineVars.numTrials, _ = cmd.Flags().GetInt("numTrials")
 
 		for i := 0; i < cmdLineVars.numTrials; i++ {
 			environments = append(environments, Simulate(cmdLineVars, false))
