@@ -4,14 +4,14 @@
 
 ### Backlog
 
-- [ ] Unit testing  
 - [ ] as: Look into concurrent potential (Trials, Days, People)
 - [ ] as: Look over c code (and rest of the project) for guidance  
 
 ### Todo
 
-- [ ] as: Update go
-- [ ] as: make sure all variables are covered from args.h (c-version)
+- [ ] as: Restructure cmdLineVars/environment to make trial/application specific variables
+- [ ] as: Unit tests
+- [ ] as: Clean up printing/output from one trial to multi trials
 - [ ] as: Write visualize
 - [ ] as: Change structure from serial to concurrent model based on trial
 - [ ] as: SPIKE: go routines and channels
@@ -19,7 +19,6 @@
 
 ### In Progress
 
-- [ ] as: Read up on cobra(issues in simulate)
 - [ ] as: Use the output file from cmdLineVars to store csv data
 - [ ] as: Try to get go results to match pdf
 - [ ] djg: Surface all constants in the c-version  
@@ -27,6 +26,10 @@
 
 ### Done ✓
 
+- [x] as: clean up repo and simulate file
+- [x] as: Update all flags (including default values)
+- [x] as: Read up on cobra(issues in simulate)
+- [x] as: Update go
 - [x] as: Change go setup to work with 2 commands(simulate/visualize)
 - [x] as: Change loop to work with one or more than one trial
 - [x] as: Add Cobra command line
