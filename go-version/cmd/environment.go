@@ -6,9 +6,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-
-	"github.com/dariubs/percent"
-	"github.com/gookit/color"
 )
 
 //SECTION ===== CMD LINE STRUCT =====
@@ -46,7 +43,7 @@ func (environment Environment) IsInfected() bool {
 	numExposures := int(NUM_EXPOSERS_MULTIPLIER * rand.Float64())
 
 	// Simulates each exposer to see if the person should be infected
-	for j := ZERO; j < numExposures; j++ {
+	for j := 0; j < numExposures; j++ {
 
 		// Gets a random person from the list to see if they are infected and have the ability to transmit the virus
 		randomPerson := environment.currPopulationStatus[rand.Intn(environment.cmdLineVars.populationSize)]
@@ -68,7 +65,7 @@ func (environment *Environment) getNextPopulationStatus() {
 	environment.nextPopulationStatus = nil
 
 	// Loops through each person in the environment to assign them each a new status
-	for i := ZERO; i < environment.cmdLineVars.populationSize; i++ {
+	for i := 0; i < environment.cmdLineVars.populationSize; i++ {
 
 		resolved := false
 		// If a person is susceptible, simulate a random number of interactions, if that person gets infect update their new status accordingly
@@ -102,9 +99,11 @@ func (environment *Environment) getNextPopulationStatus() {
 
 }
 
-func (environment *Environment) New() {
+func (environment *Environment) New(cmdLineVars CmdLineVars) {
+	environment.cmdLineVars = cmdLineVars
+
 	// Loops through each person in the population to assign them a status
-	for i := ZERO; i < environment.cmdLineVars.populationSize; i++ {
+	for i := 0; i < environment.cmdLineVars.populationSize; i++ {
 		// Checks if a random number out of 100 is less than the probability of starting with a certain status and if so the current person is create with that status
 		if rand.Intn(100) < INITIAL_INFECTION_PERCENT {
 			environment.currPopulationStatus = append(environment.currPopulationStatus, Person{status: NewlyInfected})
@@ -121,17 +120,6 @@ func (environment *Environment) New() {
 
 }
 
-// Prints a summary of the people's status on the current day
-func (environment Environment) printPopulationSummary() {
-	color.HEX(WHITE).Println("=====  DAY ", environment.currDay, " =====")
-	color.HEX(BLUE).Println("   Susceptible: %", percent.PercentOf(environment.nSusceptible, environment.cmdLineVars.populationSize))
-	color.HEX(GREEN).Println("   Recovered:   %", percent.PercentOf(environment.nRecovered, environment.cmdLineVars.populationSize))
-	color.HEX(GREEN).Println("   Vaccinated:  %", percent.PercentOf(environment.nVaccinated, environment.cmdLineVars.populationSize))
-	color.HEX(RED).Println("   Dead:        %", percent.PercentOf(environment.nDead, environment.cmdLineVars.populationSize))
-	color.HEX(ORANGE).Println("   Infected:    %", percent.PercentOf(environment.nInfected, environment.cmdLineVars.populationSize))
-
-}
-
 // Counts the amount of people with each status on the current day
 func (environment *Environment) countStatus() {
 	// Reset each counter to
@@ -142,7 +130,7 @@ func (environment *Environment) countStatus() {
 	environment.nInfected = 0
 
 	// Loop through the status array and update the counter for each appropriate status
-	for i := ZERO; i < environment.cmdLineVars.populationSize; i++ {
+	for i := 0; i < environment.cmdLineVars.populationSize; i++ {
 		switch environment.currPopulationStatus[i].getStatus() {
 		case Susceptible:
 			environment.nSusceptible++
@@ -157,10 +145,6 @@ func (environment *Environment) countStatus() {
 		}
 	}
 
-	// Print the summary for the current day
-	if environment.cmdLineVars.numTrials > 1 {
-		environment.printPopulationSummary()
-	}
 }
 
 // Updates all environment variables that change when the day changes
@@ -183,7 +167,7 @@ func (environment Environment) openFile(outputFile string) *os.File {
 	// Check for an error when opening/creating output file
 	if err != nil {
 		fmt.Println(err)
-		return os.NewFile(ZERO, "Error")
+		return os.NewFile(0, "Error")
 	}
 
 	return pFile

@@ -9,7 +9,7 @@
       "program": "go-version/main.go",
       "args": [
         "simulate",
-        "--numTrials=27"
+        "-n=37"
       ]
     },
     {
