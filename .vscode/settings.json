@@ -2,7 +2,7 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
     ".docs": "LICENSE, *.pdf, *.md, plot.txt",
-    ".configs": "go.mod, go.sum, go.work, *.yaml, .gitignore, Makefile, .replit.txt, *.nix, .clang-format",
+    ".configs": "go.mod, go.sum, go.work, go.work.sum, *.yaml, .gitignore, Makefile, .replit.txt, *.nix, .clang-format",
     ".data": "*.dat, *.xlsx",
     ".bins": "simulate, analyze, visualize, nantucket",
     ".include": "*.h",
