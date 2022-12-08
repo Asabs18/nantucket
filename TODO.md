@@ -34,7 +34,7 @@
 - [x] as: Change go setup to work with 2 commands(simulate/visualize)
 - [x] as: Change loop to work with one or more than one trial
 - [x] as: Add Cobra command line
-- [x] as: Refactor Go code 
+- [x] as: Refactor Go code
 - [x] as: Add my work into the cobra setup  
 - [x] djg: C versions of _analysis_ and _visualize_.  
 - [x] djg: Add initial GO files to repo.  
