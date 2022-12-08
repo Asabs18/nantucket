@@ -9,15 +9,15 @@
 
 ### Todo
 
-- [ ] as: Try to get go results to match pdf
 
-- [ ] as: Unit tests
 - [ ] as: Change structure from serial to concurrent model based on trial
 - [ ] as: SPIKE: go routines and channels
 - [ ] as: Collect time for each trial and overall time + other statistics/subsequent cmdLineVars
+- [ ] as: Unit tests
 
 ### In Progress
 
+- [ ] as: Try to get go results to match pdf
 - [ ] as: Use the output file from cmdLineVars to store csv data
 - [ ] as: Write visualize
 - [ ] djg: Surface all constants in the c-version  

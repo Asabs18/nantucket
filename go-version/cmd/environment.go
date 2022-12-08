@@ -120,6 +120,27 @@ func (environment *Environment) New(cmdLineVars CmdLineVars) {
 
 }
 
+// func (environment *Environment) New(cmdLineVars CmdLineVars) {
+// 	environment.cmdLineVars = cmdLineVars
+
+// 	// Loops through each person in the population to assign them a status
+// 	for i := 0; i < environment.cmdLineVars.populationSize; i++ {
+// 		// Checks if a random number out of 100 is less than the probability of starting with a certain status and if so the current person is create with that status
+// 		if i < INITIAL_INFECTION_PERCENT {
+// 			environment.currPopulationStatus = append(environment.currPopulationStatus, Person{status: NewlyInfected})
+// 		} else if float64(i) < environment.cmdLineVars.vProb+INITIAL_INFECTION_PERCENT {
+// 			environment.currPopulationStatus = append(environment.currPopulationStatus, Person{status: Vaccinated})
+// 		} else {
+// 			environment.currPopulationStatus = append(environment.currPopulationStatus, Person{status: Susceptible})
+// 		}
+// 	}
+
+// 	// Gets the status array for the next day and creates a summary of the current day status array
+// 	environment.getNextPopulationStatus()
+// 	environment.countStatus()
+
+// }
+
 // Counts the amount of people with each status on the current day
 func (environment *Environment) countStatus() {
 	// Reset each counter to
