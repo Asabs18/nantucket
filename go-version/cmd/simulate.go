@@ -57,13 +57,6 @@ func Simulate(cmdLineVars CmdLineVars) Environment {
 		// Write current days data to output file
 		environment.writeDayToFile(pFile)
 
-		// Check if the virus has already run its course
-		if environment.nSusceptible == 0 || environment.nInfected == 0 {
-			if cmdLineVars.numTrials == 1 {
-				color.HEX(WHITE).Println("\n\n      Simulation ended after", environment.currDay, "days \n The virus has run its course in Nantucket.")
-			}
-			break
-		}
 	}
 
 	return environment
@@ -83,8 +76,8 @@ func printSummary(environments []Environment) {
 		infected = append(infected, float64(environments[i].nInfected))
 	}
 
-	color.HEX(WHITE).Println("\n\n\n=============== MULTI-TRIAL SUMMARY ===============\n")
-	color.HEX(WHITE).Println("Number of Trials:             ", N_TRIALS, "\n")
+	color.HEX(WHITE).Println("\n\n\n=============== SUMMARY ===============\n")
+	color.HEX(WHITE).Println("Number of Trials:             ", cmdLineVars.numTrials, "\n")
 	color.HEX(YELLOW).Println("SUSCEPTIBLE:")
 	color.HEX(WHITE).Println("     Average Susceptible Across Trials: ", stat.Mean(susceptible, nil))
 	color.HEX(WHITE).Println("     STD of Susceptible Across Trials:  ", math.Sqrt(stat.Variance(susceptible, nil)))

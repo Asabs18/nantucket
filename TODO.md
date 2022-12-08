@@ -9,10 +9,9 @@
 
 ### Todo
 
-- [ ] as: Restructure cmdLineVars/environment to make trial/application specific variables
+- [ ] as: Try to get go results to match pdf
+
 - [ ] as: Unit tests
-- [ ] as: Clean up printing/output from one trial to multi trials
-- [ ] as: Write visualize
 - [ ] as: Change structure from serial to concurrent model based on trial
 - [ ] as: SPIKE: go routines and channels
 - [ ] as: Collect time for each trial and overall time + other statistics/subsequent cmdLineVars
@@ -20,12 +19,14 @@
 ### In Progress
 
 - [ ] as: Use the output file from cmdLineVars to store csv data
-- [ ] as: Try to get go results to match pdf
+- [ ] as: Write visualize
 - [ ] djg: Surface all constants in the c-version  
 - [ ] djg: Spec out MT version  
 
 ### Done ✓
 
+- [x] as: Clean up printing/output from one trial to multi trials
+- [x] as: Restructure cmdLineVars/environment to make trial/application specific variables
 - [x] as: clean up repo and simulate file
 - [x] as: Update all flags (including default values)
 - [x] as: Read up on cobra(issues in simulate)
