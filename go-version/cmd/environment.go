@@ -31,7 +31,7 @@ type Environment struct {
 }
 
 // Decides a random number of exposers and simulates each one to see if a person gets infected or not
-func (environment Environment) isInfected() bool {
+func (environment Environment) IsInfected() bool {
 	isInfected := false
 
 	// Decides number of exposers based on a constant given in the project description
