@@ -23,13 +23,13 @@
 ### In Progress
 
 - [ ] as: Feedback on gogo
-- [ ] as: Integrate CSV support
 - [ ] as: Use the output file from cmdLineVars to store csv data
 - [ ] djg: Surface all constants in the c-version  
 - [ ] djg: Spec out MT version  
 
 ### Done ✓
 
+- [x] as: Integrate CSV support
 - [x] as: Check in all updates to Nantucket
 - [✓] djg: Reviewed gogo executable (after chmod to enable 'x')
 - [✓] djg: Discussed diff. pkgs., five OS algos. & some real world examples
