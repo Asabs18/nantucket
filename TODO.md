@@ -4,6 +4,7 @@
 
 ### Backlog
 
+- [ ] as: Try to get go results to match pdf
 - [ ] as: Look into concurrent potential (Trials, Days, People)
 - [ ] as: Look over c code (and rest of the project) for guidance  
 - [ ] as: Charting spike
@@ -13,6 +14,8 @@
 ### Todo
 
 - [ ] as: Change structure from serial to concurrent model based on trial
+- [ ] as: Spike visualize
+- [ ] as: Write visualize
 - [ ] as: SPIKE: go routines and channels
 - [ ] as: Collect time for each trial and overall time + other statistics/subsequent cmdLineVars
 - [ ] as: Unit tests
@@ -20,16 +23,14 @@
 ### In Progress
 
 - [ ] as: Feedback on gogo
-- [ ] as: Check in all updates to Nantucket
 - [ ] as: Integrate CSV support
-- [ ] as: Try to get go results to match pdf
 - [ ] as: Use the output file from cmdLineVars to store csv data
-- [ ] as: Write visualize
 - [ ] djg: Surface all constants in the c-version  
 - [ ] djg: Spec out MT version  
 
 ### Done ✓
 
+- [x] as: Check in all updates to Nantucket
 - [✓] djg: Reviewed gogo executable (after chmod to enable 'x')
 - [✓] djg: Discussed diff. pkgs., five OS algos. & some real world examples
 - [✓] as: Clean up printing/output from one trial to multi trials
