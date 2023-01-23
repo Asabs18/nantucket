@@ -5,12 +5,14 @@ This file is part of the `nantucket` project.
 package cmd
 
 import (
+	"encoding/csv"
 	"fmt"
 	"math"
 	"math/rand"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/dariubs/percent"
 	"github.com/gookit/color"
@@ -397,6 +399,19 @@ func printMultiTrialSummary(environments []Environment) {
 
 }
 
+func writeCsv(filename string, rows [][]string) {
+	outputFile, err := os.Create(filename)
+
+	if err != nil {
+		panic(err)
+	}
+	defer outputFile.Close()
+
+	csvWriter := csv.NewWriter(outputFile)
+
+	csvWriter.WriteAll(rows)
+}
+
 func init() {
 	rootCmd.AddCommand(simulateCmd)
 }
@@ -421,6 +436,12 @@ to quickly create a Cobra application.`,
 			for i := 0; i < TRIALS; i++ {
 				environments = append(environments, Simulate(popSize, vProb, tProb, dProb, nDays, outputFile, multiTrials))
 				color.HEX(GREEN).Println("RUNNING SIMULATION #", i+1, "| Deaths: ", environments[i].nDead, "| Recoveries: ", environments[i].nRecovered, "| Infected: ", environments[i].nInfected, "| Susceptible: ", environments[i].nSusceptible, "|")
+				
+				dt := time.Now()
+				
+				output := [strconv.Itoa(environments[i].nDead), strconv.Itoa(environments[i].nRecovered), strconv.Itoa(environments[i].nInfected), strconv.Itoa(environments[i].nSusceptible)]
+				
+				writeCsv("simulations/simulation#"+dt.String()+".csv", output)
 			}
 
 			printMultiTrialSummary(environments)
