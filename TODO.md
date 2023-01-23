@@ -2,6 +2,19 @@
 
 ## Project Description
 
+### Lesson Summary
+
+- [ ] 2023-01-23:
+  - [ ] Discussed our respective sports teams (let me know when you want to learn about 🏒), `TODO.MD` and progress on our respective spikes
+  - [ ] Tried to get CSV integration working but ran into bunch of github issues…*luckily, not as bad as it looked*
+  - Next
+    - [ ] as: update sources/GitHub back to *spec*
+    - [ ] as: Edit away all dead/commented code
+    - [ ] as: Update CSV code to create one file instead `multiTrials`
+    - [ ] as: Eliminate `multiTrials`
+    - [ ] as: Complete CSV integration
+    - [ ] as: Charting spike
+
 ### Backlog
 
 - [ ] as: Try to get go results to match pdf
@@ -22,6 +35,7 @@
 
 ### In Progress
 
+- [ ] djg: Viper spike
 - [ ] as: Feedback on gogo
 - [ ] as: Use the output file from cmdLineVars to store csv data
 - [ ] djg: Surface all constants in the c-version  
@@ -29,8 +43,8 @@
 
 ### Done ✓
 
-- [x] as: Integrate CSV support
-- [x] as: Check in all updates to Nantucket
+- [✓] as: Integrate CSV support
+- [✓] as: Check in all updates to Nantucket
 - [✓] djg: Reviewed gogo executable (after chmod to enable 'x')
 - [✓] djg: Discussed diff. pkgs., five OS algos. & some real world examples
 - [✓] as: Clean up printing/output from one trial to multi trials
@@ -44,7 +58,7 @@
 - [✓] as: Add Cobra command line
 - [✓] as: Refactor Go code
 - [✓] as: Add my work into the cobra setup  
-- [✓] djg: C versions of _analysis_ and _visualize_.  
+- [✓] djg: C versions of *analysis* and *visualize*.  
 - [✓] djg: Add initial GO files to repo.  
 - [✓] djg: Update package name.  
 - [✓] djg: Create global flags.  
