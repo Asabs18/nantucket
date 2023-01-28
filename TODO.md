@@ -17,9 +17,9 @@
 
 ### Backlog
 
-- [ ] as: Try to get go results to match pdf
+- [ ] as: Try to get go results to match pdf (Rewrite init functions to fix)
 - [ ] as: Look into concurrent potential (Trials, Days, People)
-- [ ] as: Look over c code (and rest of the project) for guidance  
+- [ ] as: Look over c code (and rest of the project) for guidance   
 - [ ] as: Charting spike
 - [ ] as: Integrate charting support
 - [ ] as: Integrate gogo features (e.g., concurrency, configuration…)
@@ -35,6 +35,10 @@
 
 ### In Progress
 
+- [ ] as: update nantucket to use gota and to read and write to csv file
+- [ ] as: Decide plotting package and do a small spike
+- [ ] as: Unit tests (Use to do spike on data and maybe plotting package)
+- [ ] as: Use the output file from cmdLineVars to store csv data
 - [ ] djg: Viper spike
 - [ ] as: Feedback on gogo
 - [ ] as: Use the output file from cmdLineVars to store csv data
