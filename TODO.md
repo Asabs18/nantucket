@@ -4,6 +4,22 @@
 
 ### Lesson Summary
 
+- [ ] 2023-02-05:
+  - Discussed state of `gogo` 
+    - djg: propagation of configuration mechanism to all illustrations
+    - djg: documentation
+  - Discussed next project – some sort of _cellular automata_ or _genetic algorithm_ **playground** (_laboratory_😎❓)
+    - [simgo package - github.com/fschuetz04/simgo - Go Packages](https://pkg.go.dev/github.com/fschuetz04/simgo)
+    - [About PySim – PySim](https://pysim.org/about/)
+    - Game engines – text vs. graphical, rules engines – flexibility, domain specific, knowledge base, grids, Conway’s GOL, etc.
+  - Looked at Visualize Spike code and researched how to render HTML at run-time
+    - **as: Would a direct image/charting/graphics package be better or too complex for Nantucket’s needs?**
+  - Ran `Cute Mold` and `Protozoa` - partial inspiration for new project – on Windows w/o any issues❗
+    - djg: GitPod attempt confrms issue is most likely OpenGL on Linux
+  - Next
+    - as: complete Visualize spike
+    - as/djg: discuss next project
+
 - [ ] 2023-01-23:
   - [ ] Discussed our respective sports teams (let me know when you want to learn about 🏒), `TODO.MD` and progress on our respective spikes
   - [ ] Tried to get CSV integration working but ran into bunch of github issues…*luckily, not as bad as it looked*
