@@ -66,7 +66,7 @@ func (environment *Environment) getNextPopulationStatus() {
 		// If a person is susceptible, simulate a random number of interactions, if that person gets infect update their new status accordingly
 		if environment.currPopulationStatus[i].stringifyStatus() == "Susceptible" {
 
-			if environment.isInfected() {
+			if environment.IsInfected() {
 				environment.nextPopulationStatus = append(environment.nextPopulationStatus, Person{status: NewlyInfected})
 				resolved = true
 			}
