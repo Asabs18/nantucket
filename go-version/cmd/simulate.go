@@ -396,13 +396,17 @@ func printMultiTrialSummary(environments []Environment) {
 
 }
 
-func writeCsv(filename string, rows [][]string) {
+func openCsv(filename string) *os.File {
 	outputFile, err := os.Create(filename)
 
 	if err != nil {
 		panic(err)
 	}
-	defer outputFile.Close()
+
+	return outputFile
+}
+
+func writeCsv(outputFile *os.File, rows [][]string) {
 
 	csvWriter := csv.NewWriter(outputFile)
 
@@ -429,22 +433,29 @@ to quickly create a Cobra application.`,
 
 		var environments []Environment
 
+		//Capture time when program starts running for naming purposes
+		//dt := time.Now().
+
+		headers := [][]string{{"Simulation #", "NumDead", "NumRecovered", "NumInfected", "NumSusceptible"}}
+
+		csvFile := openCsv("cmd/simulations/simulation#" + "PLACEHOLDER" + ".csv")
+
+		writeCsv(csvFile, headers)
 		if multiTrials {
 			for i := 0; i < TRIALS; i++ {
 				environments = append(environments, Simulate(popSize, vProb, tProb, dProb, nDays, outputFile, multiTrials))
 				color.HEX(GREEN).Println("RUNNING SIMULATION #", i+1, "| Deaths: ", environments[i].nDead, "| Recoveries: ", environments[i].nRecovered, "| Infected: ", environments[i].nInfected, "| Susceptible: ", environments[i].nSusceptible, "|")
 
-				//dt := time.Now().Second()
+				output := [][]string{{strconv.Itoa(i), strconv.Itoa(environments[i].nDead), strconv.Itoa(environments[i].nRecovered), strconv.Itoa(environments[i].nInfected), strconv.Itoa(environments[i].nSusceptible)}}
 
-				output := [][]string{{strconv.Itoa(environments[i].nDead), strconv.Itoa(environments[i].nRecovered), strconv.Itoa(environments[i].nInfected), strconv.Itoa(environments[i].nSusceptible)}}
-
-				writeCsv("simulations/simulation_"+strconv.Itoa(i)+".csv", output)
+				writeCsv(csvFile, output)
 			}
 
 			printMultiTrialSummary(environments)
 		} else {
 			Simulate(popSize, vProb, tProb, dProb, nDays, outputFile, multiTrials)
 		}
+		csvFile.Close()
 	},
 }
 
