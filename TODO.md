@@ -2,18 +2,19 @@
 
 ## Project Description
 
-### Plot / Image Viewing
-- Using the `image` pkg and one of these might make it easier to display images at run-time
-  - [img command - github.com/codeliveroil/img - Go Packages](https://pkg.go.dev/github.com/codeliveroil/img#section-readme)
-  - [preview package - github.com/joshdk/preview - Go Packages](https://pkg.go.dev/github.com/joshdk/preview#section-readme)
-- A few plotting pkgs:
-  - [Plotting in Golang - Histogram, BarPlot, BoxPlot - Golang Docs](https://golangdocs.com/plotting-in-golang-histogram-barplot-boxplot)
-  - [Arafatk/glot: Glot is a plotting library for Golang built on top of gnuplot.](https://github.com/Arafatk/glot)
-  - [gonum/plot: A repository for plotting and visualizing data](https://github.com/gonum/plot)
-- A list/site you should know about:
-  - [A curated list of awesome Go frameworks, libraries and software - Awesome Go / Golang](https://awesome-go.com/#gui)
-
 ### Lesson Summary
+
+- [ ] 2023-02-13:
+  - Discussed graphics and how to scale/map a `(n x m)` matrix to a `(R x C)` (visual) display w/cells of size `(r x c)`
+  - Spent too much time (❗) playing w/time formatting in order to generate unique, structured file names
+  - [ ] Next
+    - [ ] as: clean up TODO.md
+    - [ ] djg: review pygame  GOL and A* visualizers
+    - [ ] djg: continue game engine / graphics spike
+    - [ ] djg: complete gogo
+    - [ ] as: reinstall/reestablish environment
+    - [ ] as: complete CSV support
+    - [ ] as: begin integration of visualize support
 
 - [ ] 2023-02-05:
   - Discussed state of `gogo` 
@@ -41,6 +42,17 @@
     - [ ] as: Eliminate `multiTrials`
     - [ ] as: Complete CSV integration
     - [ ] as: Charting spike
+
+### Plot / Image Viewing
+- Using the `image` pkg and one of these might make it easier to display images at run-time
+  - [img command - github.com/codeliveroil/img - Go Packages](https://pkg.go.dev/github.com/codeliveroil/img#section-readme)
+  - [preview package - github.com/joshdk/preview - Go Packages](https://pkg.go.dev/github.com/joshdk/preview#section-readme)
+- A few plotting pkgs:
+  - [Plotting in Golang - Histogram, BarPlot, BoxPlot - Golang Docs](https://golangdocs.com/plotting-in-golang-histogram-barplot-boxplot)
+  - [Arafatk/glot: Glot is a plotting library for Golang built on top of gnuplot.](https://github.com/Arafatk/glot)
+  - [gonum/plot: A repository for plotting and visualizing data](https://github.com/gonum/plot)
+- A list/site you should know about:
+  - [A curated list of awesome Go frameworks, libraries and software - Awesome Go / Golang](https://awesome-go.com/#gui)
 
 ### Backlog
 
