@@ -5,10 +5,46 @@ This file is part of the `nantucket` project.
 package cmd
 
 import (
-	"fmt"
+	"log"
+	"os"
 
+	"github.com/go-echarts/go-echarts/v2/opts"
+	"github.com/go-gota/gota/dataframe"
 	"github.com/spf13/cobra"
 )
+
+func readData(filename string) [][]opts.LineData {
+	items := make([][]opts.LineData, 0)
+
+	df := readCsv(filename)
+
+	names := df.Names()
+
+	//sel1 := df.Select([]int{1})
+
+	for i := 1; i <= 4; i++ {
+		series := df.Col(names[i])
+		for j := 1; j < series.Len(); j++ {
+			val, _ := series.Elem(j).Int()
+			items[i] = append(items[i], opts.LineData{Value: val})
+		}
+	}
+	return items
+}
+
+func readCsv(filename string) dataframe.DataFrame {
+	file, err := os.Open(filename)
+
+	defer file.Close()
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	df := dataframe.ReadCSV(file)
+
+	return df
+}
 
 // visualizeCmd represents the visualize command
 var visualizeCmd = &cobra.Command{
@@ -20,7 +56,7 @@ _visualize_ creates a histogram of deaths, bounded by dmin and dmax.
  
  The resultant histogram is written to the supplied output file.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("visualize called")
+		readData("cmd/simulations/simulation#2023-03-02-17-00-31.csv")
 	},
 }
 
